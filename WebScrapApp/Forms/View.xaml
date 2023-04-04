@@ -42,7 +42,7 @@
                               SelectedItem="{Binding Path=Tag}"                                                          
                               Text="{Binding Tag}" />
                     <TextBox Name="TextBoxViewFieldSelector"                                                
-                             wpf:HintAssist.Hint="Селектор"         
+                             wpf:HintAssist.Hint="Класс"         
                              Margin="0,8,0,0"              
                              FontSize="16"                
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
