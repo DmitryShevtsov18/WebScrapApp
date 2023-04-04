@@ -1,0 +1,143 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebScrapApp"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        x:Class="WebScrapApp.MainWindow"            
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="MainWindow"         
+        MinHeight="700"
+        MinWidth="1100">
+
+    <materialDesign:DialogHost Identifier="DialogHostMain" 
+                               DialogTheme="Inherit"
+                               SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+        <materialDesign:DrawerHost Name="NavDrawer"
+                                   IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
+                                   LeftDrawerCornerRadius="0 20 20 0"
+                                   OpenMode="Modal">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="220" Background="{DynamicResource PrimaryHueLightBrush}">
+                    <DockPanel Margin="10" DockPanel.Dock="Top" LastChildFill="False">
+                        <TextBlock Margin="10,0,10,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   DockPanel.Dock="Left"            
+                                   Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                   Text="Меню"
+                                   FontSize="22" />
+                        <Button x:Name="ButtonMenuOpen"
+                                Width="56"
+                                Height="56"                    
+                                Click="Button_Click"
+                                DockPanel.Dock="Right"
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Style="{StaticResource MaterialDesignIconForegroundButton}">
+                            <materialDesign:PackIcon Width="36" Height="36" Kind="MenuOpen" />
+                        </Button>
+                    </DockPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Button x:Name="ButtonProjects"
+                                Height="56"
+                                HorizontalContentAlignment="Left"                  
+                                Background="{DynamicResource PrimaryHueLightBrush}"
+                                BorderThickness="0"                                    
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Click="Button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Width="30" Height="30" VerticalAlignment="Center" Kind="Folder" />
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" Text="Проекты" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonParsers"
+                                Height="56"
+                                HorizontalContentAlignment="Left"                  
+                                Background="{DynamicResource PrimaryHueLightBrush}"
+                                BorderThickness="0"                                    
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Click="Button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Width="30" Height="30" VerticalAlignment="Center" Kind="TextBox" />
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" Text="Парсеры" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonReports"
+                                Height="56"
+                                HorizontalContentAlignment="Left"                  
+                                Background="{DynamicResource PrimaryHueLightBrush}"
+                                BorderThickness="0"                                    
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Click="Button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Width="30" Height="30" VerticalAlignment="Center" Kind="FileTable" />
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" Text="Отчеты" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonCompare"
+                                Height="56"
+                                HorizontalContentAlignment="Left"                  
+                                Background="{DynamicResource PrimaryHueLightBrush}"
+                                BorderThickness="0"                                    
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Click="Button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Width="30" Height="30" VerticalAlignment="Center" Kind="FileCompare" />
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" Text="Сравнение" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonSettings"
+                                Height="56"
+                                HorizontalContentAlignment="Left"                  
+                                Background="{DynamicResource PrimaryHueLightBrush}"
+                                BorderThickness="0"                                    
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                Click="Button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Width="30" Height="30" VerticalAlignment="Center" Kind="Settings" />
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" Text="Настройки" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <materialDesign:ColorZone Padding="16" 
+                                          materialDesign:ElevationAssist.Elevation="Dp0"
+                                          DockPanel.Dock="Top"
+                                          Background="{DynamicResource PrimaryHueLightBrush}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton x:Name="MenuToggleButton"
+                                      Margin="5,0,24,0"
+                                      AutomationProperties.Name="HamburgerToggleButton"                            
+                                      IsChecked="False"
+                                      Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                      Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                      Cursor="Hand"/>
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"                                   
+                                   AutomationProperties.Name="WESCAP"                                   
+                                   FontSize="22"
+                                   Text="WESCAP" 
+                                   Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </Grid>
+                </materialDesign:ColorZone>
+                <Frame Grid.Row="1" Source="/Forms/Projects1.xaml">
+                    
+                </Frame>
+            </Grid>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+</Window>

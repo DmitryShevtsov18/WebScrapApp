@@ -1,0 +1,50 @@
+﻿<Application x:Class="WebScrapApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WebScrapApp"
+             xmlns:materialDesign="https://materialdesigninxaml.net/winfx/xaml/themes"             
+             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:core="clr-namespace:WebScrapApp.Core"
+             xmlns:coreForm="clr-namespace:WebScrapApp.Core.Form"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Grey.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DialogHost.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ObjectDataProvider x:Key="TagEnum" 
+                                MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="core:STag"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="ScrollTypeEnum" 
+                                MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="core:SScrollType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <coreForm:SMultiValueConverterProjectOKToBool x:Key="MultiValueConverterProjectOKToBool" />
+            <coreForm:SMultiValueConverterPageOKToBool x:Key="MultiValueConverterPageOKToBool" />
+            <coreForm:SMultiValueConverterViewOKToBool x:Key="MultiValueConverterViewOKToBool" />
+            <coreForm:SMultiValueConverterReportTemplateOKToBool x:Key="MultiValueConverterReportTemplateOKToBool" />
+            <coreForm:SValueConverterBoolInvertor x:Key="ValueConverterBoolInvertor" />
+            <coreForm:SValueConverterEnumToBool x:Key="ValueConverterEnumToBool" />
+            <coreForm:SValueConverterBoolInvertorToVisibility x:Key="ValueConverterBoolInvertorToVisibility" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
