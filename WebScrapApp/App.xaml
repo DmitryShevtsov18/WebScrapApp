@@ -40,6 +40,7 @@
             <coreForm:SMultiValueConverterProjectOKToBool x:Key="MultiValueConverterProjectOKToBool" />
             <coreForm:SMultiValueConverterPageOKToBool x:Key="MultiValueConverterPageOKToBool" />
             <coreForm:SMultiValueConverterViewOKToBool x:Key="MultiValueConverterViewOKToBool" />
+            <coreForm:SMultiValueConverterViewFieldOKToBool x:Key="MultiValueConverterViewFieldOKToBool" />
             <coreForm:SMultiValueConverterReportTemplateOKToBool x:Key="MultiValueConverterReportTemplateOKToBool" />
             <coreForm:SValueConverterBoolInvertor x:Key="ValueConverterBoolInvertor" />
             <coreForm:SValueConverterEnumToBool x:Key="ValueConverterEnumToBool" />

@@ -35,20 +35,29 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
+                    <TextBox x:Name="TextBoxProjectDescriptionNew"
+                             Margin="0,8,0,0"
+                             HorizontalAlignment="Stretch"                                  
+                             wpf:HintAssist.Hint="Описание"
+                             FontSize="16"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             Text="{Binding Description}"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto" 
+                             Height="100" />
                     <TextBlock Text="Тег" 
                                Margin="0,16,0,0" />
                     <ComboBox x:Name="ComboBoxViewFieldTag"
                               ItemsSource="{Binding Source={StaticResource TagEnum}}"
                               SelectedItem="{Binding Path=Tag}"                                                          
                               Text="{Binding Tag}" />
-                    <TextBox Name="TextBoxViewFieldSelector"                                                
+                    <TextBox Name="TextBoxViewFieldClass"                                                
                              wpf:HintAssist.Hint="Класс"         
                              Margin="0,8,0,0"              
                              FontSize="16"                
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             PreviewKeyDown="TextBoxSelector_PreviewKeyDown">
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}">
                         <TextBox.Text>
-                            <Binding Path="Selector" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Class" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <coreForm:SValidationRuleViewFieldClass ValidatesOnTargetUpdated="True" />
                                 </Binding.ValidationRules>
@@ -64,6 +73,12 @@
                             <Button.CommandParameter>
                                 <system:Boolean>True</system:Boolean>
                             </Button.CommandParameter>
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource MultiValueConverterViewFieldOKToBool}">
+                                    <Binding ElementName="TextBoxViewFieldNameNew" Path="Text" />
+                                    <Binding ElementName="TextBoxViewFieldClass" Path="Text" />
+                                </MultiBinding>
+                            </Button.IsEnabled>
                         </Button>
                         <Button Margin="0,8,8,0"
                                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
@@ -144,6 +159,7 @@
                         <TextBlock Text="Наименование" Margin="10" />
                         <TextBox Name="TextBoxName">
                             <TextBox.Resources>
+                                <coreForm:SBindingProxy x:Key="ProxyTextBoxPageName" Data="{Binding ElementName=TextBoxPageName, Path=Text}"/>
                                 <coreForm:SBindingProxy x:Key="ProxyCheckBoxIsEditForm" Data="{Binding ElementName=CheckBoxIsEditForm, Path=IsChecked}"/>
                             </TextBox.Resources>
                             <TextBox.Text>
@@ -151,7 +167,8 @@
                                     <Binding.ValidationRules>
                                         <coreForm:SValidationRuleViewName ValidatesOnTargetUpdated="True">
                                             <coreForm:SValidationRuleViewName.CustomProperties>
-                                                <coreForm:SControlCustomProperties IsEditForm="{Binding Data, Source={StaticResource ProxyCheckBoxIsEditForm}}"/>
+                                                <coreForm:SControlCustomProperties IsEditForm="{Binding Data, Source={StaticResource ProxyCheckBoxIsEditForm}}"
+                                                                                   Page="{Binding Data, Source={StaticResource ProxyTextBoxPageName}}"/>
                                             </coreForm:SValidationRuleViewName.CustomProperties>
                                         </coreForm:SValidationRuleViewName>
                                     </Binding.ValidationRules>
@@ -172,10 +189,9 @@
                                   Text="{Binding Tag}" />
                         <TextBlock Text="Селектор" 
                                    Margin="10,20,10,10" />
-                        <TextBox Name="TextBoxSelector"                                          
-                                 PreviewKeyDown="TextBoxSelector_PreviewKeyDown">
+                        <TextBox Name="TextBoxClass">
                             <TextBox.Text>
-                                <Binding Path="Selector" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="Class" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <coreForm:SValidationRuleViewClass ValidatesOnTargetUpdated="True" />
                                     </Binding.ValidationRules>
@@ -261,9 +277,9 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Tag}" Header="Тег"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Selector}" Header="Селектор"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding TemplateField.Name}" Header="Поле шаблона"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Selector}" Header="Класс"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -285,7 +301,7 @@
                         <Button.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiValueConverterViewOKToBool}">
                                 <Binding ElementName="TextBoxName" Path="Text" />
-                                <Binding ElementName="TextBoxSelector" Path="Text" />
+                                <Binding ElementName="TextBoxClass" Path="Text" />
                                 <Binding ElementName="TextBoxPageName" Path="Text" />
                                 <Binding ElementName="CheckBoxIsEditForm" Path="IsChecked" />
                             </MultiBinding>
