@@ -24,8 +24,6 @@ namespace WebScrapApp.Forms
         public SPage page;
         public SView view;
         public bool isEdit;
-        //private List<SViewField> listViewFields;
-        //private List<SViewField> listViewFieldsOfPage;
         private SViewField selectedViewField;
         private int selectedViewFieldIndex;
 
