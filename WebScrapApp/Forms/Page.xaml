@@ -228,7 +228,8 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Tag}" Header="Тег"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Class}" Header="Класс"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Selector}" Header="Селектор"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Template.Name}" Header="Шаблон"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
