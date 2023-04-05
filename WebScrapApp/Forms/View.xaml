@@ -187,7 +187,7 @@
                                   ItemsSource="{Binding Source={StaticResource TagEnum}}"
                                   SelectedItem="{Binding Path=Tag}"                                                          
                                   Text="{Binding Tag}" />
-                        <TextBlock Text="Селектор" 
+                        <TextBlock Text="Класс" 
                                    Margin="10,20,10,10" />
                         <TextBox Name="TextBoxClass">
                             <TextBox.Text>
@@ -273,13 +273,14 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                    <ListView Name="ListViewViewFields" Grid.Row="1">
+                    <ListView Name="ListViewViewFields" Grid.Row="1"
+                              SelectionChanged="ListViewViewFields_SelectionChanged">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Tag}" Header="Тег"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Selector}" Header="Класс"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Class}" Header="Класс"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

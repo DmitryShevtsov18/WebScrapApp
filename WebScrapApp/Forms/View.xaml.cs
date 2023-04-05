@@ -24,13 +24,17 @@ namespace WebScrapApp.Forms
         public SPage page;
         public SView view;
         public bool isEdit;
+        //private List<SViewField> listViewFields;
+        //private List<SViewField> listViewFieldsOfPage;
+        private SViewField selectedViewField;
+        private int selectedViewFieldIndex;
 
         public View(SPage _page)
         {
             InitializeComponent();
 
             page = _page;
-            view = new SView();
+
             this.Load();
         }
 
@@ -41,6 +45,7 @@ namespace WebScrapApp.Forms
             page = _page;
             view = _view;
             isEdit = _isEdit;
+
             this.Load();
         }
 
@@ -51,8 +56,86 @@ namespace WebScrapApp.Forms
 
         private void Load()
         {
-            //this.BindPage();
-            //this.UpdateDesign();
+            this.initView();
+
+            this.BindForm();
+            this.UpdateDesign();
+            this.BindListViewViewFields();
+            this.SelectViewField();
+        }
+
+        private void initView()
+        {
+            if (view is null)
+            {
+                view = new SView();
+            }
+            view.Page = page.Name;
+        }
+
+        private void BindListViewViewFields()
+        {
+            ListViewViewFields.ItemsSource = null;
+            if (view.Fields.Count > 0)
+            {
+                ListViewViewFields.ItemsSource = view.Fields.Cast<SViewField>().ToList<SViewField>();
+            }
+        }
+
+        private void BindForm()
+        {
+            TextBoxName.DataContext = view;
+            TextBoxDescription.DataContext = view;            
+            ComboBoxTag.DataContext = view;
+            TextBoxClass.DataContext = view;                                            
+
+            CheckBoxIsEditForm.IsChecked = isEdit;
+            TextBoxPageName.Text = view.Page;
+        }
+
+        private void UpdateDesign()
+        {
+            TextBoxName.IsReadOnly = isEdit;
+        }
+
+        private void SelectViewField(SViewField _viewField)
+        {
+            if (ListViewViewFields.Items.Count > 0)
+            {
+                ListViewViewFields.SelectedItem = _viewField;
+            }
+        }
+
+        private void SelectViewField(int _index = 0)
+        {
+            //if (ListViewViewFields.Items.Count > 0)
+            {
+                ListViewViewFields.SelectedIndex = _index;
+            }
+        }
+
+        private void WriteViewField(SViewField _viewField, bool _isCreate = false, bool _isChange = false)
+        {
+            if (_isCreate)
+            {
+                view.Fields.Add(_viewField);                
+            }
+            else
+            {
+                if (_viewField != null && _isChange)
+                {
+                    view.Fields.Remove(selectedViewField);
+                    view.Fields.Insert(selectedViewFieldIndex, _viewField);
+                }
+            }
+        }
+
+        private void RemoveViewField(SViewField _viewField)
+        {
+            if (_viewField != null)
+            {
+                view.Fields.Remove(_viewField);
+            }
         }
 
         private void Button_Click(Object _sender, RoutedEventArgs _e)
@@ -87,62 +170,58 @@ namespace WebScrapApp.Forms
             }
         }
 
-        private void BindPage()
+        private void ListViewViewFields_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*TextBoxName.DataContext = view;
-            TextBoxDescription.DataContext = view;
-            ListViewViewFields.ItemsSource = view.Fields.Cast<SViewField>().ToList<SViewField>();
-            if (view.Fields.Count != 0)
+            if (e.AddedItems.Count != 0)
             {
-                ListViewViewFields.SelectedItem = view.Fields[0];
+                selectedViewField = (SViewField)e.AddedItems[0];
+                if (selectedViewField != null)
+                {
+                    selectedViewFieldIndex = ListViewViewFields.Items.IndexOf(selectedViewField);
+                }
             }
-            ComboBoxTag.DataContext = view;
-            TextBoxSelector.DataContext = view;                                
-            ListBoxViews.ItemsSource = page.Views.Cast<SView>().ToList<SView>();
-            CheckBoxIsEditForm.IsChecked = isEdit; */           
-        }
-
-        private void UpdateDesign()
-        {
-            //TextBoxName.IsReadOnly = isEdit;            
         }
 
         private async void ButtonViewFieldCreateClick()
         {
-            /*var viewField = new SViewField();            
+            var viewField = new SViewField();
             var dialogResult = await DialogHost.Show(viewField, "DialogHostView");
 
             if (dialogResult is bool b && b)
             {
-                view.Fields.Add(viewField);
-                ListViewViewFields.ItemsSource = view.Fields.Cast<SViewField>().ToList<SViewField>();
-                ListViewViewFields.SelectedItem = viewField;
-            }*/
+                this.WriteViewField(viewField, true);                
+                this.BindListViewViewFields();
+                this.SelectViewField(viewField);
+            }
         }
 
         private async void ButtonViewFieldDeleteClick()
         {
-            /*SViewField viewField = (SViewField)ListViewViewFields.SelectedItem;
-            int index = ListViewViewFields.SelectedIndex - 1;
             var dialogDelete = new SDialogDelete();
-            dialogDelete.Message = $"Вы действительно хотите удалить поле {viewField.Name}?";
+            dialogDelete.Message = $"Вы действительно хотите удалить поле {selectedViewField.Name}?";
             var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostView");
 
             if (dialogResult is bool b && b)
             {
-                view.Fields.Remove(viewField);
-
-                ListViewViewFields.ItemsSource = view.Fields.Cast<SViewField>().ToList<SViewField>();
-                index = index >= 0 ? index : ListViewViewFields.Items.Count > 0 ? 0 : -1;
-                if (index >= 0)
-                {
-                    ListViewViewFields.SelectedIndex = index;
-                }
-            }*/
+                this.RemoveViewField(selectedViewField);                
+                this.BindListViewViewFields();
+                int index = selectedViewFieldIndex > 0 ? selectedViewFieldIndex - 1 : view.Fields.Count > 0 ? 0 : -1;
+                this.SelectViewField(index);
+            }
         }
 
         private async void ButtonViewFieldEditClick()
         {
+            var viewField = selectedViewField.Clone();
+            var dialogResult = await DialogHost.Show(viewField, "DialogHostView");
+
+            if (dialogResult is bool b && b)
+            {
+                this.WriteViewField(viewField, false, true);                
+                this.BindListViewViewFields();
+                this.SelectViewField(viewField);
+            }
+
             /*int index = ListViewViewFields.SelectedIndex;
             var viewField = (SViewField)ListViewViewFields.SelectedItem;
             var viewFieldEdit = viewField.Clone();
@@ -159,28 +238,26 @@ namespace WebScrapApp.Forms
 
         private void ButtonViewFieldUpClick()
         {
-            /*int index = ListViewViewFields.SelectedIndex - 1;
+            int index = selectedViewFieldIndex - 1;
             if (index >= 0)
             {
-                var viewField = (SViewField)ListViewViewFields.SelectedItem;                
-                view.Fields.Remove(viewField);
-                view.Fields.Insert(index, viewField);
-                ListViewViewFields.ItemsSource = view.Fields.Cast<SViewField>().ToList<SViewField>();
-                ListViewViewFields.SelectedItem = viewField;
-            }*/
+                selectedViewFieldIndex = index;
+                this.WriteViewField(selectedViewField, false, true);
+                this.BindListViewViewFields();
+                this.SelectViewField(selectedViewField);
+            }
         }
 
         private void ButtonViewFieldDownClick()
         {
-            /*int index = ListViewViewFields.SelectedIndex + 1;
+            int index = selectedViewFieldIndex + 1;
             if (index < ListViewViewFields.Items.Count)
             {
-                var viewField = (SViewField)ListViewViewFields.SelectedItem;
-                view.Fields.Remove(viewField);
-                view.Fields.Insert(index, viewField);
-                ListViewViewFields.ItemsSource = view.Fields.Cast<SViewField>().ToList<SViewField>();
-                ListViewViewFields.SelectedItem = viewField;
-            }*/
+                selectedViewFieldIndex = index;
+                this.WriteViewField(selectedViewField, false, true);
+                this.BindListViewViewFields();
+                this.SelectViewField(selectedViewField);
+            }
         }
 
         private void ButtonOKClick()
@@ -193,15 +270,5 @@ namespace WebScrapApp.Forms
         {
             this.Close();
         }
-
-        private void TextBoxSelector_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            /*if (e.Key == Key.Space)
-            {
-                //e.Handled = true;
-            }
-            base.OnPreviewKeyDown(e);*/
-        }
-
     }
 }
