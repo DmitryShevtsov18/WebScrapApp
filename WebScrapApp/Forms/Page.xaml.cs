@@ -218,16 +218,6 @@ namespace WebScrapApp.Forms
                 this.BindListViewViews();
                 this.SelectView(sView);
             }
-
-            /*View view = new View(page);
-            view.ShowDialog();
-            if (view.DialogResult == true)
-            {
-                SView sView = view.GetSView();
-                page.Views.Add(sView);
-                ListViewViews.ItemsSource = page.Views.Cast<SView>().ToList<SView>();
-                ListViewViews.SelectedItem = sView;
-            }*/
         }
 
         private void ButtonViewEditClick()
@@ -243,27 +233,13 @@ namespace WebScrapApp.Forms
                 this.BindListViewViews();
                 this.SelectView(sView);
             }
-
-            /*int index = ListViewViews.SelectedIndex;            
-            SView sView = (SView)ListViewViews.SelectedItem;
-            SView sViewEdit = sView.Clone();
-            View view = new View(page, sViewEdit, true);
-            view.ShowDialog();
-            if (view.DialogResult == true)
-            {
-                sViewEdit = view.GetSView();
-                page.Views.Remove(sView);
-                page.Views.Insert(index, sViewEdit);
-                ListViewViews.ItemsSource = page.Views.Cast<SView>().ToList<SView>();
-                ListViewViews.SelectedItem = sViewEdit;
-            }*/
         }
 
         private async void ButtonViewDeleteClick()
         {
             var dialogDelete = new SDialogDelete();
             dialogDelete.Message = $"Вы действительно хотите удалить объект {selectedView.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjects");
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostPage");
 
             if (dialogResult is bool b && b)
             {
@@ -273,24 +249,6 @@ namespace WebScrapApp.Forms
                 int index = selectedViewIndex > 0 ? selectedViewIndex - 1 : listViews.Count > 0 ? 0 : -1;
                 this.SelectView(index);
             }
-
-            /*var view = (SView)ListViewViews.SelectedItem;
-            int index = ListViewViews.SelectedIndex - 1;
-            var dialogDelete = new SDialogDelete();
-            dialogDelete.Message = $"Вы действительно хотите удалить объект {view.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostPage");
-
-            if (dialogResult is bool b && b)
-            {                
-                page.Views.Remove(view);
-                ListViewViews.ItemsSource = page.Views.Cast<SView>().ToList<SView>();
-
-                index = index >= 0 ? index : ListViewViews.Items.Count > 0 ? 0 : -1;
-                if (index >= 0)
-                {
-                    ListViewViews.SelectedItem = (SView)ListViewViews.Items[index];
-                }
-            }*/
         }
 
         private void ButtonViewCopyClick()
@@ -306,18 +264,6 @@ namespace WebScrapApp.Forms
                 this.BindListViewViews();
                 this.SelectView(sView);
             }
-
-            /*SView sView = (SView)ListViewViews.SelectedItem;
-            SView sViewCopy = sView.Clone();
-            View view = new View(page, sViewCopy);
-            view.ShowDialog();
-            if (view.DialogResult == true)
-            {
-                sViewCopy = view.GetSView();
-                page.Views.Add(sViewCopy);
-                ListViewViews.ItemsSource = page.Views.Cast<SView>().ToList<SView>();
-                ListViewViews.SelectedItem = sViewCopy;
-            }*/
         }
 
         private void ButtonOKClick()
