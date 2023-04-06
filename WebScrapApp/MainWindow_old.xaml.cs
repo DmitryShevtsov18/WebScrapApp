@@ -18,9 +18,9 @@ namespace WebScrapApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow_old : Window
     {
-        public MainWindow()
+        public MainWindow_old()
         {
             InitializeComponent();
         }
@@ -53,67 +53,35 @@ namespace WebScrapApp
 
         private void ButtonMenuOpenClick()
         {
-            /*NavDrawer.IsLeftDrawerOpen = false;
+            NavDrawer.IsLeftDrawerOpen = false;
             if (ActualWidth > 1600)
             {                
                 MenuToggleButton.Visibility = Visibility.Visible;
-            }*/
+            }
         }
 
         private void ButtonProjectsClick()
         {
-            /*this.ButtonMenuOpenClick();
+            this.ButtonMenuOpenClick();
 
             Projects projects = new Projects();
             projects.ShowDialog();
             if (projects.DialogResult == true)
             {
                 //TODO: Reload panel projects
-            }*/
+            }
         }
 
         private void ButtonReportsClick()
         {
-            /*this.ButtonMenuOpenClick();
+            this.ButtonMenuOpenClick();
 
             Reports reports = new Reports();
             reports.ShowDialog();
             if (reports.DialogResult == true)
             {
                 //TODO: Reload panel reports
-            }*/
-        }
-
-        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonCloseMenu.Visibility = Visibility.Visible;
-            ButtonOpenMenu.Visibility = Visibility.Collapsed;
-        }
-
-        private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonCloseMenu.Visibility = Visibility.Collapsed;
-            ButtonOpenMenu.Visibility = Visibility.Visible;
-        }
-
-        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            /*UserControl usc = null;
-            GridMain.Children.Clear();
-
-            switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
-            {
-                case "ItemHome":
-                    usc = new UserControlHome();
-                    GridMain.Children.Add(usc);
-                    break;
-                case "ItemCreate":
-                    usc = new UserControlCreate();
-                    GridMain.Children.Add(usc);
-                    break;
-                default:
-                    break;
-            }*/
+            }
         }
     }
 }
