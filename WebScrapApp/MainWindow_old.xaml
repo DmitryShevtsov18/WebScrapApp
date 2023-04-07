@@ -134,7 +134,7 @@
                                    Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
                     </Grid>
                 </materialDesign:ColorZone>
-                <Frame Grid.Row="1" Source="/Forms/Projects1.xaml">
+                <Frame Grid.Row="1" Source="/Forms/ProjectsFrame.xaml">
                     
                 </Frame>
             </Grid>

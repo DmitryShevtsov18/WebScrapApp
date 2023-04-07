@@ -19,7 +19,7 @@ namespace WebScrapApp.Forms
     /// <summary>
     /// Interaction logic for Projects.xaml
     /// </summary>
-    public partial class Projects1 : UserControl
+    public partial class ProjectsFrame : UserControl
     {
         private List<SProject> listProjects;
         private SProject selectedProject;
@@ -29,7 +29,7 @@ namespace WebScrapApp.Forms
         private SPage selectedPage;
         private int selectedPageIndex;
 
-        public Projects1()
+        public ProjectsFrame()
         {
             InitializeComponent();
 
@@ -82,7 +82,6 @@ namespace WebScrapApp.Forms
 
         private void BindForm()
         {
-            TextBlockProjectName.DataContext = selectedProject;
             TextBoxName.DataContext = selectedProject;
             TextBoxDescription.DataContext = selectedProject;
         }
@@ -144,13 +143,13 @@ namespace WebScrapApp.Forms
             }
             else
             {
-                if (_page != null && listPages.IndexOf(_page) >= 0)
+                if (_page != null && listPages.IndexOf(selectedPage) >= 0)
                 {
                     SWorkFiles.WritePage(_page);
 
                     if (_isChange)
                     {
-                        listPages.Remove(_page);
+                        listPages.Remove(selectedPage);
                         listPages.Insert(selectedPageIndex, _page);
                     }
                 }
@@ -243,7 +242,7 @@ namespace WebScrapApp.Forms
         private async void ButtonProjectCreateClick()
         {
             SProject project = new SProject();
-            var dialogResult = await DialogHost.Show(project, "DialogHostProjects1");
+            var dialogResult = await DialogHost.Show(project, "DialogHostProjectsFrame");
 
             if (dialogResult is bool b && b)
             {
@@ -257,7 +256,7 @@ namespace WebScrapApp.Forms
         {
             var dialogDelete = new SDialogDelete();
             dialogDelete.Message = $"Вы действительно хотите удалить проект {selectedProject.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjects1");
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjectsFrame");
 
             if (dialogResult is bool b && b)
             {
@@ -271,7 +270,7 @@ namespace WebScrapApp.Forms
         private async void ButtonProjectCopyClick()
         {
             SProject project = selectedProject.Clone();
-            var dialogResult = await DialogHost.Show(project, "DialogHostProjects1");
+            var dialogResult = await DialogHost.Show(project, "DialogHostProjectsFrame");
 
             if (dialogResult is bool b && b)
             {
@@ -293,17 +292,6 @@ namespace WebScrapApp.Forms
                 this.BindListViewPages();
                 this.SelectPage(sPage);
             }
-
-            /*SProject project = (SProject)ListViewProjects.SelectedItem;
-            Page page = new Page(project);
-            page.ShowDialog();
-            if (page.DialogResult == true)
-            {
-                SPage sPage = page.GetSPage();                
-                project.Pages.Add(sPage);
-                ListViewPages.ItemsSource = project.Pages.Cast<SPage>().ToList<SPage>();
-                ListViewPages.SelectedItem = sPage;
-            }*/
         }
 
         private void ButtonPageEditClick()
@@ -318,30 +306,14 @@ namespace WebScrapApp.Forms
                 this.LoadListPagesOfProject();
                 this.BindListViewPages();
                 this.SelectPage(sPage);
-            }
-            
-            /*int index = ListViewPages.SelectedIndex;
-            SProject project = (SProject)ListViewProjects.SelectedItem;
-            SPage sPage = (SPage)ListViewPages.SelectedItem;
-            SPage sPageOld = sPage.Clone();
-            SPage sPageEdit = sPage.Clone();
-            Page page = new Page(project, sPageEdit, true);
-            page.ShowDialog();
-            if (page.DialogResult == true)
-            {
-                sPageEdit = page.GetSPage();
-                project.Pages.Remove(sPage);
-                project.Pages.Insert(index, sPageEdit);
-                ListViewPages.ItemsSource = project.Pages.Cast<SPage>().ToList<SPage>();
-                ListViewPages.SelectedItem = sPageEdit;
-            }*/
+            }            
         }
 
         private async void ButtonPageDeleteClick()
         {
             var dialogDelete = new SDialogDelete();
             dialogDelete.Message = $"Вы действительно хотите удалить страницу {selectedPage.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjects1");
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjectsFrame");
 
             if (dialogResult is bool b && b)
             {
@@ -351,25 +323,6 @@ namespace WebScrapApp.Forms
                 int index = selectedPageIndex > 0 ? selectedPageIndex - 1 : listPages.Count > 0 ? 0 : -1;
                 this.SelectPage(index);
             }
-
-            /*var page = (SPage)ListViewPages.SelectedItem;
-            int index = ListViewPages.SelectedIndex - 1;
-            var dialogDelete = new SDialogDelete();
-            dialogDelete.Message = $"Вы действительно хотите удалить страницу {page.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjects");
-
-            if (dialogResult is bool b && b)
-            {
-                var project = (SProject)ListViewProjects.SelectedItem;
-                project.Pages.Remove(page);
-                ListViewPages.ItemsSource = project.Pages.Cast<SPage>().ToList<SPage>();
-
-                index = index >= 0 ? index : ListViewPages.Items.Count > 0 ? 0 : -1;
-                if (index >= 0)
-                {
-                    ListViewPages.SelectedItem = (SPage)ListViewPages.Items[index];
-                }
-            }*/
         }
 
         private void ButtonPageCopyClick()
@@ -385,24 +338,13 @@ namespace WebScrapApp.Forms
                 this.BindListViewPages();
                 this.SelectPage(sPage);
             }
-
-            /*SProject project = (SProject)ListViewProjects.SelectedItem;
-            SPage sPage = (SPage)ListViewPages.SelectedItem;
-            SPage sPageCopy = sPage.Clone();
-            Page page = new Page(project, sPageCopy);
-            page.ShowDialog();
-            if (page.DialogResult == true)
-            {
-                sPageCopy = page.GetSPage();
-                project.Pages.Add(sPageCopy);
-                ListViewPages.ItemsSource = project.Pages.Cast<SPage>().ToList<SPage>();
-                ListViewPages.SelectedItem = sPageCopy;
-            }*/
         }
 
+        /*
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             this.WriteProject(selectedProject);
         }
+        */
     }
 }

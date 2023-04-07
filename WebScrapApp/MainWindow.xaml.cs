@@ -20,6 +20,8 @@ namespace WebScrapApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        UserControl currentFrame;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,89 +33,94 @@ namespace WebScrapApp
 
             switch (button.Name)
             {
-                case "ButtonMenuOpen":
-                    this.ButtonMenuOpenClick();
+                case "ButtonOpenMenu":
+                    this.ButtonOpenMenuClick();
                     break;
-                case "ButtonProjects":
-                    this.ButtonProjectsClick();
+                case "ButtonCloseMenu":
+                    this.ButtonCloseMenuClick();
                     break;
-                case "ButtonParsers":
+                case "ButtonMinimize":
+                    this.ButtonMinimizeClick();
                     break;
-                case "ButtonReports":
-                    this.ButtonReportsClick();
+                case "ButtonMaximize":
+                    this.ButtonMaximizeClick();
                     break;
-                case "ButtonCompare":
+                case "ButtonRestore":
+                    this.ButtonRestoreClick();
                     break;
-                case "ButtonSettings":
+                case "ButtonClose":
+                    this.ButtonCloseClick();
                     break;
                 default:
                     throw new Exception("");
             }
         }
 
-        private void ButtonMenuOpenClick()
-        {
-            /*NavDrawer.IsLeftDrawerOpen = false;
-            if (ActualWidth > 1600)
-            {                
-                MenuToggleButton.Visibility = Visibility.Visible;
-            }*/
-        }
-
-        private void ButtonProjectsClick()
-        {
-            /*this.ButtonMenuOpenClick();
-
-            Projects projects = new Projects();
-            projects.ShowDialog();
-            if (projects.DialogResult == true)
-            {
-                //TODO: Reload panel projects
-            }*/
-        }
-
-        private void ButtonReportsClick()
-        {
-            /*this.ButtonMenuOpenClick();
-
-            Reports reports = new Reports();
-            reports.ShowDialog();
-            if (reports.DialogResult == true)
-            {
-                //TODO: Reload panel reports
-            }*/
-        }
-
-        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
+        private void ButtonOpenMenuClick()
         {
             ButtonCloseMenu.Visibility = Visibility.Visible;
             ButtonOpenMenu.Visibility = Visibility.Collapsed;
         }
 
-        private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
+        private void ButtonCloseMenuClick()
         {
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
             ButtonOpenMenu.Visibility = Visibility.Visible;
         }
 
-        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ButtonMinimizeClick()
         {
-            /*UserControl usc = null;
-            GridMain.Children.Clear();
+            this.WindowState = WindowState.Minimized;
+        }
 
-            switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
+        private void ButtonMaximizeClick()
+        {
+            this.WindowState = WindowState.Maximized;
+            ButtonMaximize.Visibility = Visibility.Hidden;
+            ButtonRestore.Visibility = Visibility.Visible;
+        }
+
+        private void ButtonRestoreClick()
+        {
+            this.WindowState = WindowState.Normal;
+            ButtonMaximize.Visibility = Visibility.Visible;
+            ButtonRestore.Visibility = Visibility.Hidden;
+        }
+
+        private void ButtonCloseClick()
+        {
+            this.Close();
+        }
+
+        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {            
+            GridMain.Children.Clear();
+            currentFrame = null;
+
+            if (e.AddedItems.Count > 0)
             {
-                case "ItemHome":
-                    usc = new UserControlHome();
-                    GridMain.Children.Add(usc);
-                    break;
-                case "ItemCreate":
-                    usc = new UserControlCreate();
-                    GridMain.Children.Add(usc);
-                    break;
-                default:
-                    break;
-            }*/
+                switch (((ListViewItem)e.AddedItems[0]).Name)
+                {
+                    case "ItemHome":                        
+                        break;
+                    case "ItemProjects":
+                        currentFrame = new ProjectsFrame();
+                        break;
+                    case "ItemParsers":
+                        break;
+                    case "ItemReports":
+                        break;
+                    case "ItemCompare":
+                        break;
+                    default:
+                        break;
+                }
+
+                if (currentFrame != null)
+                {
+                    GridMain.Children.Add(currentFrame);
+                }
+            }
         }
     }
 }

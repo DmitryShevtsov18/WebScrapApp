@@ -161,11 +161,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow_old.xaml">
+    <Page Include="Forms\ProjectsFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Forms\Projects1.xaml">
+    <Page Include="MainWindow_old.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -247,11 +247,11 @@
     <Compile Include="Core\SPage.cs" />
     <Compile Include="Core\SProject.cs" />
     <Compile Include="Core\SWorkFiles.cs" />
+    <Compile Include="Forms\ProjectsFrame.xaml.cs">
+      <DependentUpon>ProjectsFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow_old.xaml.cs">
       <DependentUpon>MainWindow_old.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Projects1.xaml.cs">
-      <DependentUpon>Projects1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
