@@ -15,22 +15,22 @@
 
         <Storyboard x:Key="OpenMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="180"/>
             </DoubleAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="GridMain">
-                <SplineThicknessKeyFrame KeyTime="0" Value="70,60,0,0"/>
-                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="200,60,0,0"/>
+                <SplineThicknessKeyFrame KeyTime="0" Value="60,60,0,0"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="180,60,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="CloseMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="70"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="180"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
             </DoubleAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="GridMain">
-                <SplineThicknessKeyFrame KeyTime="0" Value="200,60,0,0"/>
-                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="70,60,0,0"/>
+                <SplineThicknessKeyFrame KeyTime="0" Value="180,60,0,0"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="60,60,0,0"/>
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
         
@@ -48,7 +48,7 @@
     </Window.Triggers>
 
     <Grid Background="White">
-        <Grid x:Name="GridMain" Margin="70,60,0,0" />
+        <Grid x:Name="GridMain" Margin="60,60,0,0" />
         <Grid Height="60" 
               VerticalAlignment="Top" 
               Background="{DynamicResource PrimaryHueLightBrush}">
@@ -62,8 +62,8 @@
                        Text="WESCAP" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="ButtonMinimize" 
-                        Height="40" 
-                        Width="50" 
+                        Height="30" 
+                        Width="45" 
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Top" 
                         Style="{StaticResource MaterialDesignFlatButton}" 
@@ -71,12 +71,12 @@
                         BorderBrush="{x:Null}" 
                         Foreground="{DynamicResource PrimaryHueDarkBrush}" 
                         Click="Button_Click">
-                    <materialDesign:PackIcon Kind="WindowMinimize" Width="20" Height="20"/>
+                    <materialDesign:PackIcon Kind="WindowMinimize" Width="15" Height="15"/>
                 </Button>
                 <Grid>
                     <Button x:Name="ButtonMaximize" 
-                            Height="40" 
-                            Width="50" 
+                            Height="30" 
+                            Width="45" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top" 
                             Style="{StaticResource MaterialDesignFlatButton}" 
@@ -84,11 +84,11 @@
                             BorderBrush="{x:Null}" 
                             Foreground="{DynamicResource PrimaryHueDarkBrush}" 
                             Click="Button_Click">
-                        <materialDesign:PackIcon Kind="WindowMaximize" Width="20" Height="20"/>
+                        <materialDesign:PackIcon Kind="WindowMaximize" Width="15" Height="15"/>
                     </Button>
                     <Button x:Name="ButtonRestore" 
-                            Height="40" 
-                            Width="50" 
+                            Height="30" 
+                            Width="45" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top" 
                             Visibility="Hidden"
@@ -97,12 +97,12 @@
                             BorderBrush="{x:Null}" 
                             Foreground="{DynamicResource PrimaryHueDarkBrush}" 
                             Click="Button_Click">
-                        <materialDesign:PackIcon Kind="WindowRestore" Width="20" Height="20"/>
+                        <materialDesign:PackIcon Kind="WindowRestore" Width="15" Height="15"/>
                     </Button>
                 </Grid>
                 <Button x:Name="ButtonClose" 
-                        Height="40" 
-                        Width="50" 
+                        Height="30" 
+                        Width="45" 
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Top" 
                         Style="{StaticResource MaterialDesignFlatButton}" 
@@ -110,12 +110,12 @@
                         BorderBrush="{x:Null}" 
                         Foreground="{DynamicResource PrimaryHueDarkBrush}" 
                         Click="Button_Click">
-                    <materialDesign:PackIcon Kind="WindowClose" Width="20" Height="20"/>
+                    <materialDesign:PackIcon Kind="WindowClose" Width="15" Height="15"/>
                 </Button>
             </StackPanel>
         </Grid>
         <Grid x:Name="GridMenu" 
-              Width="70" 
+              Width="60" 
               HorizontalAlignment="Left" 
               Background="{DynamicResource PrimaryHueLightBrush}">
             <Grid.Effect>
@@ -134,8 +134,8 @@
                         </TransformGroup>
                     </Grid.RenderTransform>
                     <Button x:Name="ButtonOpenMenu" 
-                            Height="60" 
-                            Width="60" 
+                            Height="50" 
+                            Width="50" 
                             Margin="5" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top" 
@@ -148,8 +148,8 @@
                     </Button>
                     <Button x:Name="ButtonCloseMenu" 
                             Visibility="Collapsed" 
-                            Height="60" 
-                            Width="60" 
+                            Height="50" 
+                            Width="50" 
                             Margin="5" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top" 
@@ -167,49 +167,49 @@
                           Foreground="{DynamicResource PrimaryHueDarkBrush}" 
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           SelectionChanged="ListViewMenu_SelectionChanged">
-                    <ListViewItem x:Name="ItemHome" Height="60">
+                    <ListViewItem x:Name="ItemHome" Height="50">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ViewDashboard" 
-                                                     Height="30" 
-                                                     Width="30" 
-                                                     Margin="10,5,5,5"/>
-                            <TextBlock Text="Главная" VerticalAlignment="Center" Margin="20 10"/>
+                            <materialDesign:PackIcon Kind="ViewDashboard"
+                                                     Height="25" 
+                                                     Width="25" 
+                                                     Margin="10 5"/>
+                            <TextBlock Text="Главная" VerticalAlignment="Center" Margin="10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="ItemProjects" Height="60">
+                    <ListViewItem x:Name="ItemProjects" Height="50">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="CardTextOutline" 
-                                                     Height="30" 
-                                                     Width="30" 
-                                                     Margin="10,5,5,5"/>
-                            <TextBlock Text="Проекты" VerticalAlignment="Center" Margin="20 10"/>
+                                                     Height="25" 
+                                                     Width="25" 
+                                                     Margin="10 5"/>
+                            <TextBlock Text="Проекты" VerticalAlignment="Center" Margin="10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="ItemParsers" Height="60">
+                    <ListViewItem x:Name="ItemParsers" Height="50">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ApplicationBracketsOutline" 
-                                                     Height="30" 
-                                                     Width="30" 
-                                                     Margin="10,5,5,5"/>
-                            <TextBlock Text="Парсеры" VerticalAlignment="Center" Margin="20 10"/>
+                                                     Height="25" 
+                                                     Width="25" 
+                                                     Margin="10 5"/>
+                            <TextBlock Text="Парсеры" VerticalAlignment="Center" Margin="10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Height="60">
-                        <StackPanel x:Name="ItemReports" Orientation="Horizontal">
+                    <ListViewItem x:Name="ItemReports" Height="50">
+                        <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="FileTableOutline" 
-                                                     Height="30" 
-                                                     Width="30" 
-                                                     Margin="10,5,5,5"/>
-                            <TextBlock Text="Отчеты" VerticalAlignment="Center" Margin="20 10"/>
+                                                     Height="25" 
+                                                     Width="25" 
+                                                     Margin="10 5"/>
+                            <TextBlock Text="Отчеты" VerticalAlignment="Center" Margin="10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="ItemCompare" Height="60">
+                    <ListViewItem x:Name="ItemCompare" Height="50">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="FileCompare" 
-                                                     Height="30" 
-                                                     Width="30" 
-                                                     Margin="10,5,5,5"/>
-                            <TextBlock Text="Сравнение" VerticalAlignment="Center" Margin="20 10"/>
+                                                     Height="25" 
+                                                     Width="25" 
+                                                     Margin="10 5"/>
+                            <TextBlock Text="Сравнение" VerticalAlignment="Center" Margin="10"/>
                         </StackPanel>
                     </ListViewItem>
                 </ListView>

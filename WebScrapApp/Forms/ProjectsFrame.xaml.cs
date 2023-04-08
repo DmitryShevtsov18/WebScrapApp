@@ -82,6 +82,7 @@ namespace WebScrapApp.Forms
 
         private void BindForm()
         {
+            TextBlockProjectName.DataContext = selectedProject;
             TextBoxName.DataContext = selectedProject;
             TextBoxDescription.DataContext = selectedProject;
         }
@@ -171,6 +172,67 @@ namespace WebScrapApp.Forms
             {
                 SWorkFiles.DeletePage(_page);
                 listPages.Remove(_page);
+            }
+        }
+
+        public void SaveDataForm()
+        {
+            this.WriteProject(selectedProject);
+        }
+
+        private void ChangeGrid(bool _openFrame = false)
+        {
+            if (_openFrame)
+            {
+                GridMain.Visibility = Visibility.Hidden;
+                GridFrame.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GridMain.Visibility = Visibility.Visible;
+                GridFrame.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void OpenFrame(PageFrame _pageFrame)
+        {
+            GridFrame.Children.Clear();
+
+            if (_pageFrame != null)
+            {                
+                GridFrame.Children.Add(_pageFrame);
+                this.ChangeGrid(true);
+            }
+        }
+
+        private void CloseFrame(object _sender, EventArgs _e)
+        {
+            PageFrame pageFrame = _sender as PageFrame;
+            
+            this.ChangeGrid();
+
+            if (pageFrame.DialogResult)
+            {
+                SPage sPage = pageFrame.GetSPage();
+
+                switch (pageFrame.OpenType)
+                {
+                    case SFrameOpenType.Create:
+                        this.WritePage(sPage, true);
+                        break;
+                    case SFrameOpenType.Edit:
+                        this.WritePage(sPage, false, true);
+                        break;
+                    case SFrameOpenType.Copy:
+                        this.WritePage(sPage, true);
+                        break;
+                    default:
+                        throw new Exception("");
+                }
+
+                this.LoadListPagesOfProject();
+                this.BindListViewPages();
+                this.SelectPage(sPage);
             }
         }
 
@@ -282,31 +344,19 @@ namespace WebScrapApp.Forms
 
         private void ButtonPageCreateClick()
         {
-            Page page = new Page(selectedProject);
+            PageFrame pageFrame = new PageFrame(selectedProject);
+            pageFrame.OnClosing += CloseFrame;
 
-            if (page.ShowDialog() == true)
-            {
-                SPage sPage = page.GetSPage();
-                this.WritePage(sPage, true);
-                this.LoadListPagesOfProject();
-                this.BindListViewPages();
-                this.SelectPage(sPage);
-            }
+            this.OpenFrame(pageFrame);
         }
 
         private void ButtonPageEditClick()
         {
             SPage sPage = selectedPage.Clone();
-            Page page = new Page(selectedProject, sPage, true);
+            PageFrame pageFrame = new PageFrame(selectedProject, sPage, true);
+            pageFrame.OnClosing += CloseFrame;
 
-            if (page.ShowDialog() == true)
-            {
-                sPage = page.GetSPage();
-                this.WritePage(sPage, false, true);
-                this.LoadListPagesOfProject();
-                this.BindListViewPages();
-                this.SelectPage(sPage);
-            }            
+            this.OpenFrame(pageFrame);
         }
 
         private async void ButtonPageDeleteClick()
@@ -328,23 +378,10 @@ namespace WebScrapApp.Forms
         private void ButtonPageCopyClick()
         {
             SPage sPage = selectedPage.Clone();
-            Page page = new Page(selectedProject, sPage);
+            PageFrame pageFrame = new PageFrame(selectedProject, sPage);
+            pageFrame.OnClosing += CloseFrame;
 
-            if (page.ShowDialog() == true)
-            {
-                sPage = page.GetSPage();
-                this.WritePage(sPage, true);
-                this.LoadListPagesOfProject();
-                this.BindListViewPages();
-                this.SelectPage(sPage);
-            }
-        }
-
-        /*
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            this.WriteProject(selectedProject);
-        }
-        */
+            this.OpenFrame(pageFrame);
+        }       
     }
 }

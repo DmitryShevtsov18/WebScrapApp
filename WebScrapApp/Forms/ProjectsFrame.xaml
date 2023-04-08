@@ -105,23 +105,31 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid Height="40" 
                   VerticalAlignment="Top" 
                   Background="{DynamicResource PrimaryHueLightBrush}">
-                <Grid.Effect>
-                    <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFAEAEAE"/>
-                </Grid.Effect>
-                <TextBlock HorizontalAlignment="Left" 
-                           VerticalAlignment="Center" 
-                           Margin="10"
-                           Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                           FontSize="14"
-                           Text="Проект" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Left" 
+                               VerticalAlignment="Center" 
+                               Margin="10"
+                               Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                               FontSize="14"
+                               Text="Проект" />
+                    <TextBlock Name="TextBlockProjectName" 
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Center" 
+                               Margin="5 10"
+                               Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                               FontSize="14"
+                               Text="{Binding Name}" />
+                </StackPanel>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
+            <Grid x:Name="GridMain" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
@@ -131,10 +139,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="ButtonProjectCreate"
-                                Margin="5,0,0,0"
+                        <Button x:Name="ButtonProjectCreate"                                
                                 HorizontalContentAlignment="Left"  
                                 Foreground="{DynamicResource PrimaryHueDarkBrush}" 
                                 Style="{StaticResource MaterialDesignFlatButton}" 
@@ -160,37 +168,35 @@
                                 Content="Удалить"
                                 FontSize="12" />
                     </StackPanel>
-                    <StackPanel Grid.Row="1">
-                        <Grid Background="#FFAEAEAE"
-                              Height="1" />
-                        <ListView Name="ListViewProjects" 
-                                  Margin="5"
-                                  SelectionChanged="ListViewProjects_SelectionChanged" 
-                                  FontSize="12"
-                                  HorizontalAlignment="Stretch">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" 
-                                                    Header="Наименование" />
-                                    <GridViewColumn Header="Описание">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="250"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </StackPanel>
+                    <Grid Grid.Row="1"
+                          Background="#FFAEAEAE"
+                          Height="1" />
+                    <ListView Name="ListViewProjects" 
+                              Grid.Row="2"
+                              Margin="5"
+                              SelectionChanged="ListViewProjects_SelectionChanged" 
+                              FontSize="12">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
+                                <GridViewColumn Header="Описание">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="250"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
                 <GridSplitter Grid.Column="1"                                
                               Width="2" 
                               Margin="0 5"
-                              Foreground="#FFAEAEAE"
                               HorizontalAlignment="Stretch" />
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -219,10 +225,8 @@
                         <Grid Background="#FFAEAEAE" Height="1" VerticalAlignment="Bottom"/>
                     </Grid>
                     <StackPanel Grid.Row="2" 
-                                Orientation="Horizontal"
-                                Margin="5,0,0,0">
-                        <Button x:Name="ButtonPageCreate"
-                                Margin="5,0,0,0"
+                                Orientation="Horizontal">
+                        <Button x:Name="ButtonPageCreate"                                
                                 HorizontalContentAlignment="Left"                  
                                 Foreground="{DynamicResource PrimaryHueDarkBrush}" 
                                 Style="{StaticResource MaterialDesignFlatButton}"
@@ -258,30 +262,31 @@
                                 Content="Копировать"
                                 FontSize="12" />
                     </StackPanel>
-                    <StackPanel Grid.Row="3">
-                        <Grid Background="#FFAEAEAE"
-                              Height="1" />
-                        <ListView Name="ListViewPages" 
-                                  Margin="5"
-                                  FontSize="12"
-                                  SelectionChanged="ListViewPages_SelectionChanged">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"/>
-                                    <GridViewColumn Header="Описание">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="250"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Url}" Header="Адрес"/>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </StackPanel>
+                    <Grid Grid.Row="3"                            
+                          Background="#FFAEAEAE"
+                          Height="1" />
+                    <ListView Name="ListViewPages" 
+                              Grid.Row="4"
+                              Margin="5"
+                              FontSize="12"
+                              SelectionChanged="ListViewPages_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"/>
+                                <GridViewColumn Header="Описание">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="250"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Url}" Header="Адрес"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </Grid>
+            <Grid x:Name="GridFrame" Grid.Row="2" Visibility="Hidden" />
         </Grid>
     </materialDesign:DialogHost>
 </UserControl>

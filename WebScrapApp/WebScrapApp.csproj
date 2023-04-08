@@ -161,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Forms\PageFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Forms\ProjectsFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -209,6 +213,7 @@
     <Compile Include="Core\SDialogDelete.cs" />
     <Compile Include="Core\SDialogError.cs" />
     <Compile Include="Core\SDialogNotification.cs" />
+    <Compile Include="Core\SFrameOpenType.cs" />
     <Compile Include="Core\SReportCreate.cs" />
     <Compile Include="Core\SWebParser.cs" />
     <Compile Include="Core\SWebReader.cs" />
@@ -247,6 +252,9 @@
     <Compile Include="Core\SPage.cs" />
     <Compile Include="Core\SProject.cs" />
     <Compile Include="Core\SWorkFiles.cs" />
+    <Compile Include="Forms\PageFrame.xaml.cs">
+      <DependentUpon>PageFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ProjectsFrame.xaml.cs">
       <DependentUpon>ProjectsFrame.xaml</DependentUpon>
     </Compile>
