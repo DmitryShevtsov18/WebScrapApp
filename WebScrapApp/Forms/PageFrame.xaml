@@ -106,8 +106,8 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Наименование" Margin="5" />
-                                <TextBox Name="TextBoxName">
+                                <TextBlock Text="Наименование" Margin="5 0" />
+                                <TextBox Name="TextBoxName" FontSize="11">
                                     <TextBox.Resources>
                                         <coreForm:SBindingProxy x:Key="ProxyCheckBoxIsEditForm" Data="{Binding ElementName=CheckBoxIsEditForm, Path=IsChecked}"/>
                                         <coreForm:SBindingProxy x:Key="ProxyTextBoxProjectName" Data="{Binding ElementName=TextBoxProjectName, Path=Text}"/>
@@ -127,15 +127,17 @@
                                 </TextBox>
                                 <TextBlock Text="Описание" Margin="5,20,5,5" />
                                 <TextBox Name="TextBoxDescription" 
-                                 Text="{Binding Description}" 
-                                 TextWrapping="Wrap"
-                                 VerticalScrollBarVisibility="Auto" 
-                                 Height="80"/>
+                                         Text="{Binding Description}" 
+                                         FontSize="11"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto" 
+                                         Height="50"/>
                                 <TextBlock Text="Адрес" Margin="5,20,5,5" />
                                 <TextBox Name="TextBoxUrl"  
-                                 TextWrapping="Wrap"
-                                 VerticalScrollBarVisibility="Auto" 
-                                 Height="45">
+                                         FontSize="11"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto" 
+                                         Height="35">
                                     <TextBox.Text>
                                         <Binding Path="Url" UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
@@ -148,28 +150,33 @@
                                     <StackPanel>
                                         <TextBlock Text="Прокрутка" Margin="5,20,5,5"/>
                                         <RadioButton x:Name="RadioScrollTypeDynamic"
-                                         IsChecked="{Binding Path=ScrollType, Converter={StaticResource ValueConverterEnumToBool}, ConverterParameter={x:Static core:SScrollType.Dynamic}}"
-                                         Content="Динамеческая"/>
+                                                     FontSize="11"
+                                                     IsChecked="{Binding Path=ScrollType, Converter={StaticResource ValueConverterEnumToBool}, ConverterParameter={x:Static core:SScrollType.Dynamic}}"
+                                                     Content="Динамеческая"/>
                                         <RadioButton x:Name="RadioScrollTypeDynamicLink" 
-                                         IsChecked="{Binding Path=ScrollType, Converter={StaticResource ValueConverterEnumToBool}, ConverterParameter={x:Static core:SScrollType.DynamicLink}}"
-                                         Content="По кнопке"/>
+                                                     FontSize="11"
+                                                     IsChecked="{Binding Path=ScrollType, Converter={StaticResource ValueConverterEnumToBool}, ConverterParameter={x:Static core:SScrollType.DynamicLink}}"
+                                                     Content="По кнопке"/>
                                         <RadioButton x:Name="RadioScrollTypeNumericPages" 
-                                         IsChecked="{Binding Path=ScrollType, Converter={StaticResource ValueConverterEnumToBool}, ConverterParameter={x:Static core:SScrollType.NumericPages}}"
-                                         Content="Страницы"/>
+                                                     FontSize="11"
+                                                     IsChecked="{Binding Path=ScrollType, Converter={StaticResource ValueConverterEnumToBool}, ConverterParameter={x:Static core:SScrollType.NumericPages}}"
+                                                     Content="Страницы"/>
                                     </StackPanel>
                                     <TextBlock Text="Тег" 
-                                   Margin="5,20,5,5"
-                                   Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}" />
+                                               Margin="5,20,5,5"
+                                               Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}" />
                                     <ComboBox x:Name="ComboBoxScrollTag"
-                                  ItemsSource="{Binding Source={StaticResource TagEnum}}"
-                                  SelectedItem="{Binding Path=ScrollTag}"                                                          
-                                  Text="{Binding ScrollTag}"                                   
-                                  Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}" />
-                                    <TextBlock Text="Класс" 
-                                   Margin="5,20,5,5"
-                                   Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}" />
-                                    <TextBox Name="TextBoxClass"         
-                                 Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}">
+                                              FontSize="11"
+                                              ItemsSource="{Binding Source={StaticResource TagEnum}}"
+                                              SelectedItem="{Binding Path=ScrollTag}"                                                          
+                                              Text="{Binding ScrollTag}"                                   
+                                              Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}" />
+                                    <TextBlock Text="Класс"                                                
+                                               Margin="5,20,5,5"
+                                               Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}" />
+                                    <TextBox Name="TextBoxClass" 
+                                             FontSize="11"
+                                             Visibility="{Binding ElementName=RadioScrollTypeDynamic, Path=IsChecked, Converter={StaticResource ValueConverterBoolInvertorToVisibility}}">
                                         <TextBox.Text>
                                             <Binding Path="ScrollClass" UpdateSourceTrigger="PropertyChanged">
                                                 <Binding.ValidationRules>
@@ -184,77 +191,93 @@
                     </ScrollViewer>
                     <GridSplitter Grid.Column="1"                                
                               Width="2" 
-                              Margin="0 5"
                               HorizontalAlignment="Stretch" />
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal">
+                        <Grid Height="40" 
+                              VerticalAlignment="Top" 
+                              Background="{DynamicResource PrimaryHueLightBrush}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock HorizontalAlignment="Left" 
+                                           VerticalAlignment="Center" 
+                                           Margin="10"
+                                           Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                           FontSize="14"
+                                           Text="Объекты" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
+                        <StackPanel Grid.Row="2" Orientation="Horizontal">
                             <Button x:Name="ButtonViewCreate"                                
-                                HorizontalContentAlignment="Left"                  
-                                Background="{DynamicResource PrimaryHueLightBrush}"
-                                BorderThickness="0"                                    
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                                Click="Button_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Width="20" Height="20" VerticalAlignment="Center" Kind="FilePlusOutline"/>
-                                    <TextBlock Margin="5" VerticalAlignment="Center" FontSize="12" Text="Добавить объект" />
-                                </StackPanel>
-                            </Button>
+                                    HorizontalContentAlignment="Left"                   
+                                    Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Click="Button_Click"
+                                    Content="Добавить"
+                                    FontSize="12" />
                             <Button x:Name="ButtonViewEdit"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Background="{DynamicResource PrimaryHueLightBrush}"
-                                BorderThickness="0"                                    
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                                Click="Button_Click"                                
-                                IsEnabled="{Binding ElementName=ListViewViews, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Width="20" Height="20" VerticalAlignment="Center" Kind="FileEditOutline"/>
-                                    <TextBlock Margin="5" VerticalAlignment="Center" FontSize="12" Text="Изменить" />
-                                </StackPanel>
-                            </Button>
-                            <Button x:Name="ButtonViewDelete"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Background="{DynamicResource PrimaryHueLightBrush}"
-                                BorderThickness="0"                                    
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                                Click="Button_Click"                                
-                                IsEnabled="{Binding ElementName=ListViewViews, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Width="20" Height="20" VerticalAlignment="Center" Kind="FileRemoveOutline"/>
-                                    <TextBlock Margin="5" VerticalAlignment="Center" FontSize="12" Text="Удалить" />
-                                </StackPanel>
-                            </Button>
+                                    Margin="5,0,0,0"
+                                    HorizontalContentAlignment="Left"                   
+                                    Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Click="Button_Click"                                
+                                    IsEnabled="{Binding ElementName=ListViewViews, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                                    Content="Изменить"
+                                    FontSize="12" />
                             <Button x:Name="ButtonViewCopy"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Background="{DynamicResource PrimaryHueLightBrush}"
-                                BorderThickness="0"                                    
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                                Click="Button_Click"
-                                IsEnabled="{Binding ElementName=ListViewViews, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Width="20" Height="20" VerticalAlignment="Center" Kind="FileMultipleOutline"/>
-                                    <TextBlock Margin="5" VerticalAlignment="Center" FontSize="12" Text="Копировать" />
-                                </StackPanel>
-                            </Button>
+                                    Margin="5,0,0,0"
+                                    HorizontalContentAlignment="Left"                   
+                                    Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Click="Button_Click"
+                                    IsEnabled="{Binding ElementName=ListViewViews, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                                    Content="Копировать"
+                                    FontSize="12" />
+                            <Button x:Name="ButtonViewDelete"
+                                    Margin="5,0,0,0"
+                                    HorizontalContentAlignment="Left"                   
+                                    Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Click="Button_Click"                                
+                                    IsEnabled="{Binding ElementName=ListViewViews, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                                    Content="Удалить"
+                                    FontSize="12" />
                         </StackPanel>
+                        <Grid Grid.Row="3" Background="#FFAEAEAE" Height="1" />
                         <ListView Name="ListViewViews" 
-                              Grid.Row="1"
-                                  Margin="5"
-                              SelectionChanged="ListViewViews_SelectionChanged">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"/>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание"/>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Tag}" Header="Тег"/>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Class}" Header="Класс"/>
-                                </GridView>
-                            </ListView.View>
+                                  Grid.Row="4"
+                                  FontSize="12"                                  
+                                  SelectionChanged="ListViewViews_SelectionChanged">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Наименование " FontWeight="Medium" />
+                                            <TextBlock Text="{Binding Name}" FontSize="11" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Тег " FontWeight="Medium" />
+                                            <TextBlock Text="{Binding Tag}" FontSize="11" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Класс " FontWeight="Medium" />
+                                            <TextBlock Text="{Binding Class}" FontSize="11" />
+                                        </StackPanel>
+                                        <TextBlock Text="Описание" FontWeight="Medium" />
+                                        <TextBlock Text="{Binding Description}" 
+                                                   Margin="5 0" 
+                                                   FontSize="11"
+                                                   TextWrapping="Wrap" 
+                                                   MaxWidth="450"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </Grid>
                 </Grid>

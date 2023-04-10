@@ -172,27 +172,29 @@
                           Background="#FFAEAEAE"
                           Height="1" />
                     <ListView Name="ListViewProjects" 
-                              Grid.Row="2"
-                              Margin="5"
+                              Grid.Row="2"                              
                               SelectionChanged="ListViewProjects_SelectionChanged" 
                               FontSize="12">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
-                                <GridViewColumn Header="Описание">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="250"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Наименование " FontWeight="Medium" />
+                                        <TextBlock Text="{Binding Name}" FontSize="11" />
+                                    </StackPanel>
+                                    <TextBlock Text="Описание" FontWeight="Medium" />
+                                    <TextBlock Text="{Binding Description}" 
+                                               Margin="5 0" 
+                                               FontSize="11"
+                                               TextWrapping="Wrap" 
+                                               MaxWidth="350"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
                 <GridSplitter Grid.Column="1"                                
                               Width="2" 
-                              Margin="0 5"
                               HorizontalAlignment="Stretch" />
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
@@ -204,9 +206,13 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Vertical" Margin="5">
                         <TextBlock Text="Наименование" Margin="5 0" />
-                        <TextBox Name="TextBoxName" Text="{Binding Name}" IsReadOnly="True"/>
+                        <TextBox Name="TextBoxName" 
+                                 FontSize="11"
+                                 Text="{Binding Name}"                                  
+                                 IsReadOnly="True"/>
                         <TextBlock Text="Описание" Margin="5 0" />
-                        <TextBox Name="TextBoxDescription" 
+                        <TextBox Name="TextBoxDescription"
+                                 FontSize="11"
                                  Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
                                  TextWrapping="Wrap"
                                  VerticalScrollBarVisibility="Auto" 
@@ -243,15 +249,6 @@
                                 IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
                                 Content="Изменить"
                                 FontSize="12" />
-                        <Button x:Name="ButtonPageDelete"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="Button_Click"                                
-                                IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
-                                Content="Удалить"
-                                FontSize="12" />
                         <Button x:Name="ButtonPageCopy"
                                 Margin="5,0,0,0"
                                 HorizontalContentAlignment="Left"                  
@@ -261,28 +258,45 @@
                                 IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
                                 Content="Копировать"
                                 FontSize="12" />
+                        <Button x:Name="ButtonPageDelete"
+                                Margin="5,0,0,0"
+                                HorizontalContentAlignment="Left"                  
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                Click="Button_Click"                                
+                                IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                                Content="Удалить"
+                                FontSize="12" />
                     </StackPanel>
                     <Grid Grid.Row="3"                            
                           Background="#FFAEAEAE"
                           Height="1" />
                     <ListView Name="ListViewPages" 
-                              Grid.Row="4"
-                              Margin="5"
+                              Grid.Row="4"                              
                               FontSize="12"
                               SelectionChanged="ListViewPages_SelectionChanged">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование"/>
-                                <GridViewColumn Header="Описание">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="250"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Url}" Header="Адрес"/>
-                            </GridView>
-                        </ListView.View>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Наименование " FontWeight="Medium" />
+                                        <TextBlock Text="{Binding Name}" FontSize="11" />
+                                    </StackPanel>
+                                    <TextBlock Text="Адрес" FontWeight="Medium" />
+                                    <TextBlock Text="{Binding Url}" 
+                                               Margin="5 0" 
+                                               FontSize="11"
+                                               TextWrapping="Wrap" 
+                                               MaxWidth="450"/>
+                                    <TextBlock Text="Описание" FontWeight="Medium" />
+                                    <TextBlock Text="{Binding Description}" 
+                                               Margin="5 0" 
+                                               FontSize="11"
+                                               TextWrapping="Wrap" 
+                                               MaxWidth="450"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
             </Grid>

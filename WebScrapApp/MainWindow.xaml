@@ -19,8 +19,8 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="180"/>
             </DoubleAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="GridMain">
-                <SplineThicknessKeyFrame KeyTime="0" Value="60,60,0,0"/>
-                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="180,60,0,0"/>
+                <SplineThicknessKeyFrame KeyTime="0" Value="60,60,0,20"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="180,60,0,20"/>
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="CloseMenu">
@@ -29,8 +29,8 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
             </DoubleAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="GridMain">
-                <SplineThicknessKeyFrame KeyTime="0" Value="180,60,0,0"/>
-                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="60,60,0,0"/>
+                <SplineThicknessKeyFrame KeyTime="0" Value="180,60,0,20"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:0.5" Value="60,60,0,20"/>
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
         
@@ -48,7 +48,7 @@
     </Window.Triggers>
 
     <Grid Background="White">
-        <Grid x:Name="GridMain" Margin="60,60,0,0" />
+        <Grid x:Name="GridMain" Margin="60,60,0,20" />
         <Grid Height="60" 
               VerticalAlignment="Top" 
               Background="{DynamicResource PrimaryHueLightBrush}">
@@ -113,6 +113,18 @@
                     <materialDesign:PackIcon Kind="WindowClose" Width="15" Height="15"/>
                 </Button>
             </StackPanel>
+        </Grid>
+        <Grid Height="20" 
+              VerticalAlignment="Bottom"               
+              Background="{DynamicResource PrimaryHueLightBrush}">
+        </Grid>
+        <Grid Height="1" 
+              VerticalAlignment="Bottom"  
+              Margin="0 20"
+              Background="{DynamicResource PrimaryHueLightBrush}">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFAEAEAE"/>
+            </Grid.Effect>
         </Grid>
         <Grid x:Name="GridMenu" 
               Width="60" 
