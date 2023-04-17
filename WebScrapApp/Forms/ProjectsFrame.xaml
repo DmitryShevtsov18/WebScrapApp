@@ -106,25 +106,9 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Vertical" Margin="5">
-                    <TextBlock Text="Наименование" Margin="5 0" />
-                    <TextBox Name="TextBoxName" 
-                             FontSize="11"
-                             Text="{Binding Name}"                                  
-                             IsReadOnly="True"/>
-                    <TextBlock Text="Описание" Margin="5 0" />
-                    <TextBox Name="TextBoxDescription"
-                             FontSize="11"
-                             Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
-                             TextWrapping="Wrap"
-                             VerticalScrollBarVisibility="Auto" 
-                             Height="50"/>
-                </StackPanel>
-                <Grid Grid.Row="1"
-                      Height="40" 
+                <Grid Height="40" 
                       VerticalAlignment="Top" 
                       Background="{DynamicResource PrimaryHueLightBrush}">
                     <TextBlock HorizontalAlignment="Left" 
@@ -133,9 +117,9 @@
                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
                                FontSize="14"
                                Text="Страницы" />
-                    <Grid Background="#FFAEAEAE" Height="1" VerticalAlignment="Bottom"/>
+                    <Grid Background="#FFAEAEAE" Height="1" VerticalAlignment="Bottom" />
                 </Grid>
-                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <Button x:Name="ButtonPageCreate"                                
                             HorizontalContentAlignment="Left"                  
                             Foreground="{DynamicResource PrimaryHueDarkBrush}" 
@@ -172,9 +156,9 @@
                             Content="Удалить"
                             FontSize="12" />
                 </StackPanel>
-                <Grid Grid.Row="3" Background="#FFAEAEAE" Height="1" />
+                <Grid Grid.Row="2" Background="#FFAEAEAE" Height="1" />
                 <ListView Name="ListViewPages" 
-                          Grid.Row="4"                              
+                          Grid.Row="3"                              
                           FontSize="12"
                           SelectionChanged="ListViewPages_SelectionChanged">
                     <ListView.ItemTemplate>

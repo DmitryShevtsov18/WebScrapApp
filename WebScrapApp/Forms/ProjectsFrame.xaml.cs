@@ -83,8 +83,6 @@ namespace WebScrapApp.Forms
         private void BindForm()
         {
             TextBlockProjectName.DataContext = selectedProject;
-            TextBoxName.DataContext = selectedProject;
-            TextBoxDescription.DataContext = selectedProject;
         }
 
         private void SelectProject(SProject _project)
