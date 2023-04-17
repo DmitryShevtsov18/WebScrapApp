@@ -304,7 +304,7 @@ namespace WebScrapApp.Forms
         private async void ButtonProjectCreateClick()
         {
             SProject project = new SProject();
-            var dialogResult = await DialogHost.Show(project, "DialogHostProjectsFrame");
+            var dialogResult = await DialogHost.Show(project, "DialogHostWindow");
 
             if (dialogResult is bool b && b)
             {
@@ -318,7 +318,7 @@ namespace WebScrapApp.Forms
         {
             var dialogDelete = new SDialogDelete();
             dialogDelete.Message = $"Вы действительно хотите удалить проект {selectedProject.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjectsFrame");
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostWindow");
 
             if (dialogResult is bool b && b)
             {
@@ -332,7 +332,7 @@ namespace WebScrapApp.Forms
         private async void ButtonProjectCopyClick()
         {
             SProject project = selectedProject.Clone();
-            var dialogResult = await DialogHost.Show(project, "DialogHostProjectsFrame");
+            var dialogResult = await DialogHost.Show(project, "DialogHostWindow");
 
             if (dialogResult is bool b && b)
             {
@@ -363,7 +363,7 @@ namespace WebScrapApp.Forms
         {
             var dialogDelete = new SDialogDelete();
             dialogDelete.Message = $"Вы действительно хотите удалить страницу {selectedPage.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostProjectsFrame");
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostWindow");
 
             if (dialogResult is bool b && b)
             {

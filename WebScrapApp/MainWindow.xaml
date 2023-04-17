@@ -4,14 +4,175 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebScrapApp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:core="clr-namespace:WebScrapApp.Core"
+        xmlns:coreForm="clr-namespace:WebScrapApp.Core.Form"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         x:Class="WebScrapApp.MainWindow"            
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="MainWindow"         
         MinHeight="700"
-        MinWidth="1100">
-    
+        MinWidth="1200">
+
     <Window.Resources>
+
+        <DataTemplate DataType="{x:Type core:SDialogDelete}">
+            <StackPanel Margin="16" DataContext="{Binding}" Width="300">
+                <TextBlock Text="{Binding Header}" FontSize="14" />
+                <TextBlock Text="{Binding Message}" FontSize="12" Margin="0,10,10,10" TextWrapping="Wrap"/>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="0,8,8,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="Да"
+                            IsDefault="True"                                
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                    </Button>
+                    <Button Margin="0,8,8,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="Нет"
+                            IsCancel="True"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <Button.CommandParameter>
+                            <system:Boolean>False</system:Boolean>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type core:SProject}">
+            <StackPanel Margin="16" DataContext="{Binding}" Width="400">
+                <TextBlock Text="Проект" FontSize="14"/>
+                <TextBox x:Name="TextBoxProjectNameNew"
+                         Margin="0,8,0,0"
+                         HorizontalAlignment="Stretch"                                                  
+                         wpf:HintAssist.Hint="Наименование"                             
+                         FontSize="12"                                                 
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <coreForm:SValidationRuleProjectName ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="TextBoxProjectDescriptionNew"
+                         Margin="0,16,0,0"
+                         HorizontalAlignment="Stretch"                                  
+                         wpf:HintAssist.Hint="Описание"
+                         FontSize="12"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding Description}"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto" 
+                         Height="80" />
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="0,8,8,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="ОК"
+                            IsDefault="True"                                
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverterProjectOKToBool}">
+                                <Binding ElementName="TextBoxProjectNameNew" Path="Text" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
+                    <Button Margin="0,8,8,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="Отмена"
+                            IsCancel="True"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <Button.CommandParameter>
+                            <system:Boolean>False</system:Boolean>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type core:SViewField}">
+            <StackPanel Margin="16" DataContext="{Binding}" Width="400">
+                <TextBlock Text="Поле" FontSize="14"/>
+                <TextBox x:Name="TextBoxViewFieldNameNew"
+                         Margin="0,8,0,0"
+                         HorizontalAlignment="Stretch"                                                  
+                         wpf:HintAssist.Hint="Наименование"
+                         FontSize="12"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <coreForm:SValidationRuleViewFieldName ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="TextBoxProjectDescriptionNew"
+                         Margin="0,8,0,0"
+                         HorizontalAlignment="Stretch"                                  
+                         wpf:HintAssist.Hint="Описание"
+                         FontSize="12"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding Description}"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto" 
+                         Height="80" />
+                <TextBlock Text="Тег" Margin="0,16,0,0" />
+                <ComboBox x:Name="ComboBoxViewFieldTag"
+                          ItemsSource="{Binding Source={StaticResource TagEnum}}"
+                          SelectedItem="{Binding Path=Tag}"                                                          
+                          Text="{Binding Tag}" 
+                          FontSize="12"/>
+                <TextBox Name="TextBoxViewFieldClass"                                                
+                         wpf:HintAssist.Hint="Класс"         
+                         Margin="0,8,0,0"              
+                         FontSize="12"                
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="Class" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <coreForm:SValidationRuleViewFieldClass ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="0,8,8,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="ОК"
+                            IsDefault="True"                                
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverterViewFieldOKToBool}">
+                                <Binding ElementName="TextBoxViewFieldNameNew" Path="Text" />
+                                <Binding ElementName="TextBoxViewFieldClass" Path="Text" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
+                    <Button Margin="0,8,8,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="Отмена"
+                            IsCancel="True"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <Button.CommandParameter>
+                            <system:Boolean>False</system:Boolean>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
 
         <Storyboard x:Key="OpenMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
@@ -47,185 +208,189 @@
         
     </Window.Triggers>
 
-    <Grid Background="White">
-        <Grid x:Name="GridMain" Margin="60,60,0,20" />
-        <Grid Height="60" 
-              VerticalAlignment="Top" 
-              Background="{DynamicResource PrimaryHueLightBrush}">
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFAEAEAE"/>
-            </Grid.Effect>
-            <TextBlock HorizontalAlignment="Center" 
-                       VerticalAlignment="Center" 
-                       Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                       FontSize="22"
-                       Text="WESCAP" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="ButtonMinimize" 
-                        Height="30" 
-                        Width="45" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Top" 
-                        Style="{StaticResource MaterialDesignFlatButton}" 
-                        Background="{x:Null}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                        Click="Button_Click">
-                    <materialDesign:PackIcon Kind="WindowMinimize" Width="15" Height="15"/>
-                </Button>
-                <Grid>
-                    <Button x:Name="ButtonMaximize" 
-                            Height="30" 
-                            Width="45" 
-                            HorizontalAlignment="Right" 
-                            VerticalAlignment="Top" 
-                            Style="{StaticResource MaterialDesignFlatButton}" 
-                            Background="{x:Null}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                            Click="Button_Click">
-                        <materialDesign:PackIcon Kind="WindowMaximize" Width="15" Height="15"/>
-                    </Button>
-                    <Button x:Name="ButtonRestore" 
-                            Height="30" 
-                            Width="45" 
-                            HorizontalAlignment="Right" 
-                            VerticalAlignment="Top" 
-                            Visibility="Hidden"
-                            Style="{StaticResource MaterialDesignFlatButton}" 
-                            Background="{x:Null}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                            Click="Button_Click">
-                        <materialDesign:PackIcon Kind="WindowRestore" Width="15" Height="15"/>
-                    </Button>
-                </Grid>
-                <Button x:Name="ButtonClose" 
-                        Height="30" 
-                        Width="45" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Top" 
-                        Style="{StaticResource MaterialDesignFlatButton}" 
-                        Background="{x:Null}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                        Click="Button_Click">
-                    <materialDesign:PackIcon Kind="WindowClose" Width="15" Height="15"/>
-                </Button>
-            </StackPanel>
-        </Grid>
-        <Grid Height="20" 
-              VerticalAlignment="Bottom"               
-              Background="{DynamicResource PrimaryHueLightBrush}">
-        </Grid>
-        <Grid Height="1" 
-              VerticalAlignment="Bottom"  
-              Margin="0 20"
-              Background="{DynamicResource PrimaryHueLightBrush}">
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFAEAEAE"/>
-            </Grid.Effect>
-        </Grid>
-        <Grid x:Name="GridMenu" 
-              Width="60" 
-              HorizontalAlignment="Left" 
-              Background="{DynamicResource PrimaryHueLightBrush}">
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
-            </Grid.Effect>
-            <StackPanel>
-                <Grid Height="150" 
-                      Background="White" 
-                      RenderTransformOrigin="0.5,0.5">
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Grid.RenderTransform>
-                    <Button x:Name="ButtonOpenMenu" 
-                            Height="50" 
-                            Width="50" 
-                            Margin="5" 
-                            HorizontalAlignment="Right" 
-                            VerticalAlignment="Top" 
-                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
-                            Background="{x:Null}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                            Click="Button_Click">
-                        <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
-                    </Button>
-                    <Button x:Name="ButtonCloseMenu" 
-                            Visibility="Collapsed" 
-                            Height="50" 
-                            Width="50" 
-                            Margin="5" 
-                            HorizontalAlignment="Right" 
-                            VerticalAlignment="Top" 
-                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
-                            Background="{x:Null}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                            Click="Button_Click">
-                        <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
-                    </Button>
 
-                    <Image Height="80" VerticalAlignment="Bottom"/>
-                </Grid>
-                <ListView x:Name="ListViewMenu" 
-                          Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                          SelectionChanged="ListViewMenu_SelectionChanged">
-                    <ListViewItem x:Name="ItemHome" Height="50">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ViewDashboard"
-                                                     Height="25" 
-                                                     Width="25" 
-                                                     Margin="10 5"/>
-                            <TextBlock Text="Главная" VerticalAlignment="Center" Margin="10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="ItemProjects" Height="50">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="CardTextOutline" 
-                                                     Height="25" 
-                                                     Width="25" 
-                                                     Margin="10 5"/>
-                            <TextBlock Text="Проекты" VerticalAlignment="Center" Margin="10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="ItemParsers" Height="50">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ApplicationBracketsOutline" 
-                                                     Height="25" 
-                                                     Width="25" 
-                                                     Margin="10 5"/>
-                            <TextBlock Text="Парсеры" VerticalAlignment="Center" Margin="10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="ItemReports" Height="50">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="FileTableOutline" 
-                                                     Height="25" 
-                                                     Width="25" 
-                                                     Margin="10 5"/>
-                            <TextBlock Text="Отчеты" VerticalAlignment="Center" Margin="10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="ItemCompare" Height="50">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="FileCompare" 
-                                                     Height="25" 
-                                                     Width="25" 
-                                                     Margin="10 5"/>
-                            <TextBlock Text="Сравнение" VerticalAlignment="Center" Margin="10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                </ListView>
-            </StackPanel>
+    <materialDesign:DialogHost Identifier="DialogHostWindow" 
+                               DialogTheme="Inherit"                               
+                               CloseOnClickAway="True">
+        <Grid Background="White">
+            <Grid x:Name="GridMain" Margin="60,60,0,20" />
+            <Grid Height="60" 
+                  VerticalAlignment="Top" 
+                  Background="{DynamicResource PrimaryHueLightBrush}">
+                <Grid.Effect>
+                    <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFAEAEAE"/>
+                </Grid.Effect>
+                <TextBlock HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                           FontSize="22"
+                           Text="WESCAP" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="ButtonMinimize" 
+                            Height="30" 
+                            Width="45" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Top" 
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Background="{x:Null}" 
+                            BorderBrush="{x:Null}" 
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Click="Button_Click">
+                        <materialDesign:PackIcon Kind="WindowMinimize" Width="15" Height="15"/>
+                    </Button>
+                    <Grid>
+                        <Button x:Name="ButtonMaximize" 
+                                Height="30" 
+                                Width="45" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" 
+                                Style="{StaticResource MaterialDesignFlatButton}" 
+                                Background="{x:Null}" 
+                                BorderBrush="{x:Null}" 
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                Click="Button_Click">
+                            <materialDesign:PackIcon Kind="WindowMaximize" Width="15" Height="15"/>
+                        </Button>
+                        <Button x:Name="ButtonRestore" 
+                                Height="30" 
+                                Width="45" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" 
+                                Visibility="Hidden"
+                                Style="{StaticResource MaterialDesignFlatButton}" 
+                                Background="{x:Null}" 
+                                BorderBrush="{x:Null}" 
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                Click="Button_Click">
+                            <materialDesign:PackIcon Kind="WindowRestore" Width="15" Height="15"/>
+                        </Button>
+                    </Grid>
+                    <Button x:Name="ButtonClose" 
+                            Height="30" 
+                            Width="45" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Top" 
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Background="{x:Null}" 
+                            BorderBrush="{x:Null}" 
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Click="Button_Click">
+                        <materialDesign:PackIcon Kind="WindowClose" Width="15" Height="15"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid Height="20" 
+                  VerticalAlignment="Bottom"               
+                  Background="{DynamicResource PrimaryHueLightBrush}">
+            </Grid>
+            <Grid Height="1" 
+                  VerticalAlignment="Bottom"  
+                  Margin="0 20"
+                  Background="{DynamicResource PrimaryHueLightBrush}">
+                <Grid.Effect>
+                    <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFAEAEAE"/>
+                </Grid.Effect>
+            </Grid>
+            <Grid x:Name="GridMenu" 
+                  Width="60" 
+                  HorizontalAlignment="Left" 
+                  Background="{DynamicResource PrimaryHueLightBrush}">
+                <Grid.Effect>
+                    <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
+                </Grid.Effect>
+                <StackPanel>
+                    <Grid Height="150" 
+                          Background="White" 
+                          RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Button x:Name="ButtonOpenMenu" 
+                                Height="50" 
+                                Width="50" 
+                                Margin="5" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" 
+                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                                Background="{x:Null}" 
+                                BorderBrush="{x:Null}" 
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                Click="Button_Click">
+                            <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
+                        </Button>
+                        <Button x:Name="ButtonCloseMenu" 
+                                Visibility="Collapsed" 
+                                Height="50" 
+                                Width="50" 
+                                Margin="5" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" 
+                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                                Background="{x:Null}" 
+                                BorderBrush="{x:Null}" 
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                                Click="Button_Click">
+                            <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
+                        </Button>
+                        <Image Height="80" VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <ListView x:Name="ListViewMenu" 
+                              Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                              SelectionChanged="ListViewMenu_SelectionChanged">
+                        <ListViewItem x:Name="ItemHome" Height="50">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ViewDashboard"
+                                                         Height="25" 
+                                                         Width="25" 
+                                                         Margin="10 5"/>
+                                <TextBlock Text="Главная" VerticalAlignment="Center" Margin="10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="ItemProjects" Height="50">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="CardTextOutline" 
+                                                         Height="25" 
+                                                         Width="25" 
+                                                         Margin="10 5"/>
+                                <TextBlock Text="Проекты" VerticalAlignment="Center" Margin="10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="ItemParsers" Height="50">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ApplicationBracketsOutline" 
+                                                         Height="25" 
+                                                         Width="25" 
+                                                         Margin="10 5"/>
+                                <TextBlock Text="Парсеры" VerticalAlignment="Center" Margin="10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="ItemReports" Height="50">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FileTableOutline" 
+                                                         Height="25" 
+                                                         Width="25" 
+                                                         Margin="10 5"/>
+                                <TextBlock Text="Отчеты" VerticalAlignment="Center" Margin="10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="ItemCompare" Height="50">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FileCompare" 
+                                                         Height="25" 
+                                                         Width="25" 
+                                                         Margin="10 5"/>
+                                <TextBlock Text="Сравнение" VerticalAlignment="Center" Margin="10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                </StackPanel>
+            </Grid>
         </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
 </Window>

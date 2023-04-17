@@ -169,6 +169,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Forms\ReportsFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\ViewFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow_old.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -257,6 +265,12 @@
     </Compile>
     <Compile Include="Forms\ProjectsFrame.xaml.cs">
       <DependentUpon>ProjectsFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReportsFrame.xaml.cs">
+      <DependentUpon>ReportsFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ViewFrame.xaml.cs">
+      <DependentUpon>ViewFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow_old.xaml.cs">
       <DependentUpon>MainWindow_old.xaml</DependentUpon>

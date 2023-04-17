@@ -11,296 +11,198 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            
-            <DataTemplate DataType="{x:Type core:SProject}">
-                <StackPanel Margin="16" DataContext="{Binding}" Width="400">
-                    <TextBlock Text="Проект" FontSize="18"/>
-                    <TextBox x:Name="TextBoxProjectNameNew"
-                             Margin="0,8,0,0"
-                             HorizontalAlignment="Stretch"                                                  
-                             wpf:HintAssist.Hint="Наименование"                             
-                             FontSize="16"                                                 
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}">
-                        <TextBox.Text>
-                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <coreForm:SValidationRuleProjectName ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                    <TextBox x:Name="TextBoxProjectDescriptionNew"
-                             Margin="0,16,0,0"
-                             HorizontalAlignment="Stretch"                                  
-                             wpf:HintAssist.Hint="Описание"
-                             FontSize="16"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding Description}"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Height="40" 
+              VerticalAlignment="Top" 
+              Background="{DynamicResource PrimaryHueLightBrush}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock HorizontalAlignment="Left" 
+                           VerticalAlignment="Center" 
+                           Margin="10"
+                           Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                           FontSize="14"
+                           Text="Проект" />
+                <TextBlock Name="TextBlockProjectName" 
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Center" 
+                           Margin="5 10"
+                           Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                           FontSize="14"
+                           Text="{Binding Name}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
+        <Grid x:Name="GridMain" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="ButtonProjectCreate"                                
+                            HorizontalContentAlignment="Left"  
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Click="Button_Click"                                
+                            Content="Создать"
+                            FontSize="12" />
+                    <Button x:Name="ButtonProjectCopy"
+                            Margin="5,0,0,0"
+                            HorizontalContentAlignment="Left"                
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="Button_Click"
+                            IsEnabled="{Binding ElementName=ListViewProjects, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                            Content="Копировать"
+                            FontSize="12" />
+                    <Button x:Name="ButtonProjectDelete"
+                            Margin="5,0,0,0"
+                            HorizontalContentAlignment="Left"                  
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="Button_Click"
+                            IsEnabled="{Binding ElementName=ListViewProjects, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                            Content="Удалить"
+                            FontSize="12" />
+                </StackPanel>
+                <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
+                <ListView Name="ListViewProjects" 
+                          Grid.Row="2"                              
+                          SelectionChanged="ListViewProjects_SelectionChanged" 
+                          FontSize="12">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Наименование " FontWeight="Medium" />
+                                    <TextBlock Text="{Binding Name}" FontSize="11" />
+                                </StackPanel>
+                                <TextBlock Text="Описание" FontWeight="Medium" />
+                                <TextBlock Text="{Binding Description}" 
+                                           Margin="5 0" 
+                                           FontSize="11"
+                                           TextWrapping="Wrap" 
+                                           MaxWidth="350"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch" />
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <TextBlock Text="Наименование" Margin="5 0" />
+                    <TextBox Name="TextBoxName" 
+                             FontSize="11"
+                             Text="{Binding Name}"                                  
+                             IsReadOnly="True"/>
+                    <TextBlock Text="Описание" Margin="5 0" />
+                    <TextBox Name="TextBoxDescription"
+                             FontSize="11"
+                             Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
                              TextWrapping="Wrap"
                              VerticalScrollBarVisibility="Auto" 
-                             Height="100" />
-                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Margin="0,8,8,0"
-                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                Content="ОК"
-                                IsDefault="True"                                
-                                Style="{StaticResource MaterialDesignFlatButton}">
-                            <Button.CommandParameter>
-                                <system:Boolean>True</system:Boolean>
-                            </Button.CommandParameter>
-                            <Button.IsEnabled>
-                                <MultiBinding Converter="{StaticResource MultiValueConverterProjectOKToBool}">
-                                    <Binding ElementName="TextBoxProjectNameNew" Path="Text" />
-                                </MultiBinding>
-                            </Button.IsEnabled>
-                        </Button>
-                        <Button Margin="0,8,8,0"
-                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                Content="Отмена"
-                                IsCancel="True"
-                                Style="{StaticResource MaterialDesignFlatButton}">
-                            <Button.CommandParameter>
-                                <system:Boolean>False</system:Boolean>
-                            </Button.CommandParameter>
-                        </Button>
-                    </StackPanel>
+                             Height="50"/>
                 </StackPanel>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type core:SDialogDelete}">
-                <StackPanel Margin="16" DataContext="{Binding}" Width="300">
-                    <TextBlock Text="{Binding Header}" FontSize="18" />
-                    <TextBlock Text="{Binding Message}" FontSize="14" Margin="0,10,10,10" TextWrapping="Wrap"/>
-                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Margin="0,8,8,0"
-                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                Content="Да"
-                                IsDefault="True"                                
-                                Style="{StaticResource MaterialDesignFlatButton}">
-                            <Button.CommandParameter>
-                                <system:Boolean>True</system:Boolean>
-                            </Button.CommandParameter>
-                        </Button>
-                        <Button Margin="0,8,8,0"
-                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                Content="Нет"
-                                IsCancel="True"
-                                Style="{StaticResource MaterialDesignFlatButton}">
-                            <Button.CommandParameter>
-                                <system:Boolean>False</system:Boolean>
-                            </Button.CommandParameter>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
-            </DataTemplate>
-
-        </ResourceDictionary>
-    </UserControl.Resources>
-
-    <materialDesign:DialogHost Identifier="DialogHostProjectsFrame" 
-                               DialogTheme="Inherit"                               
-                               CloseOnClickAway="True">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Grid Height="40" 
-                  VerticalAlignment="Top" 
-                  Background="{DynamicResource PrimaryHueLightBrush}">
-                <StackPanel Orientation="Horizontal">
+                <Grid Grid.Row="1"
+                      Height="40" 
+                      VerticalAlignment="Top" 
+                      Background="{DynamicResource PrimaryHueLightBrush}">
                     <TextBlock HorizontalAlignment="Left" 
                                VerticalAlignment="Center" 
                                Margin="10"
                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
                                FontSize="14"
-                               Text="Проект" />
-                    <TextBlock Name="TextBlockProjectName" 
-                               HorizontalAlignment="Left" 
-                               VerticalAlignment="Center" 
-                               Margin="5 10"
-                               Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                               FontSize="14"
-                               Text="{Binding Name}" />
+                               Text="Страницы" />
+                    <Grid Background="#FFAEAEAE" Height="1" VerticalAlignment="Bottom"/>
+                </Grid>
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Button x:Name="ButtonPageCreate"                                
+                            HorizontalContentAlignment="Left"                  
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="Button_Click"
+                            IsEnabled="{Binding ElementName=ListViewProjects, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"                              
+                            Content="Добавить"
+                            FontSize="12" />
+                    <Button x:Name="ButtonPageEdit"
+                            Margin="5,0,0,0"
+                            HorizontalContentAlignment="Left"                  
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="Button_Click"                                
+                            IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                            Content="Изменить"
+                            FontSize="12" />
+                    <Button x:Name="ButtonPageCopy"
+                            Margin="5,0,0,0"
+                            HorizontalContentAlignment="Left"                  
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="Button_Click"
+                            IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                            Content="Копировать"
+                            FontSize="12" />
+                    <Button x:Name="ButtonPageDelete"
+                            Margin="5,0,0,0"
+                            HorizontalContentAlignment="Left"                  
+                            Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="Button_Click"                                
+                            IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
+                            Content="Удалить"
+                            FontSize="12" />
                 </StackPanel>
-            </Grid>
-            <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
-            <Grid x:Name="GridMain" Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="ButtonProjectCreate"                                
-                                HorizontalContentAlignment="Left"  
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}" 
-                                Click="Button_Click"                                
-                                Content="Создать"
-                                FontSize="12" />
-                        <Button x:Name="ButtonProjectCopy"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="Button_Click"
-                                IsEnabled="{Binding ElementName=ListViewProjects, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
-                                Content="Копировать"
-                                FontSize="12" />
-                        <Button x:Name="ButtonProjectDelete"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="Button_Click"
-                                IsEnabled="{Binding ElementName=ListViewProjects, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
-                                Content="Удалить"
-                                FontSize="12" />
-                    </StackPanel>
-                    <Grid Grid.Row="1"
-                          Background="#FFAEAEAE"
-                          Height="1" />
-                    <ListView Name="ListViewProjects" 
-                              Grid.Row="2"                              
-                              SelectionChanged="ListViewProjects_SelectionChanged" 
-                              FontSize="12">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Наименование " FontWeight="Medium" />
-                                        <TextBlock Text="{Binding Name}" FontSize="11" />
-                                    </StackPanel>
-                                    <TextBlock Text="Описание" FontWeight="Medium" />
-                                    <TextBlock Text="{Binding Description}" 
-                                               Margin="5 0" 
-                                               FontSize="11"
-                                               TextWrapping="Wrap" 
-                                               MaxWidth="350"/>
+                <Grid Grid.Row="3" Background="#FFAEAEAE" Height="1" />
+                <ListView Name="ListViewPages" 
+                          Grid.Row="4"                              
+                          FontSize="12"
+                          SelectionChanged="ListViewPages_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Наименование " FontWeight="Medium" />
+                                    <TextBlock Text="{Binding Name}" FontSize="11" />
                                 </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-                <GridSplitter Grid.Column="1"                                
-                              Width="2" 
-                              HorizontalAlignment="Stretch" />
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Vertical" Margin="5">
-                        <TextBlock Text="Наименование" Margin="5 0" />
-                        <TextBox Name="TextBoxName" 
-                                 FontSize="11"
-                                 Text="{Binding Name}"                                  
-                                 IsReadOnly="True"/>
-                        <TextBlock Text="Описание" Margin="5 0" />
-                        <TextBox Name="TextBoxDescription"
-                                 FontSize="11"
-                                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
-                                 TextWrapping="Wrap"
-                                 VerticalScrollBarVisibility="Auto" 
-                                 Height="50"/>
-                    </StackPanel>
-                    <Grid Grid.Row="1"
-                          Height="40" 
-                          VerticalAlignment="Top" 
-                          Background="{DynamicResource PrimaryHueLightBrush}">
-                        <TextBlock HorizontalAlignment="Left" 
-                                   VerticalAlignment="Center" 
-                                   Margin="10"
-                                   Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                                   FontSize="14"
-                                   Text="Страницы" />
-                        <Grid Background="#FFAEAEAE" Height="1" VerticalAlignment="Bottom"/>
-                    </Grid>
-                    <StackPanel Grid.Row="2" 
-                                Orientation="Horizontal">
-                        <Button x:Name="ButtonPageCreate"                                
-                                HorizontalContentAlignment="Left"                  
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="Button_Click"
-                                IsEnabled="{Binding ElementName=ListViewProjects, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"                              
-                                Content="Добавить"
-                                FontSize="12" />
-                        <Button x:Name="ButtonPageEdit"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="Button_Click"                                
-                                IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
-                                Content="Изменить"
-                                FontSize="12" />
-                        <Button x:Name="ButtonPageCopy"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="Button_Click"
-                                IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
-                                Content="Копировать"
-                                FontSize="12" />
-                        <Button x:Name="ButtonPageDelete"
-                                Margin="5,0,0,0"
-                                HorizontalContentAlignment="Left"                  
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="Button_Click"                                
-                                IsEnabled="{Binding ElementName=ListViewPages, Path=Items.IsEmpty, Converter={StaticResource ResourceKey=ValueConverterBoolInvertor}}"
-                                Content="Удалить"
-                                FontSize="12" />
-                    </StackPanel>
-                    <Grid Grid.Row="3"                            
-                          Background="#FFAEAEAE"
-                          Height="1" />
-                    <ListView Name="ListViewPages" 
-                              Grid.Row="4"                              
-                              FontSize="12"
-                              SelectionChanged="ListViewPages_SelectionChanged">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Наименование " FontWeight="Medium" />
-                                        <TextBlock Text="{Binding Name}" FontSize="11" />
-                                    </StackPanel>
-                                    <TextBlock Text="Адрес" FontWeight="Medium" />
-                                    <TextBlock Text="{Binding Url}" 
-                                               Margin="5 0" 
-                                               FontSize="11"
-                                               TextWrapping="Wrap" 
-                                               MaxWidth="450"/>
-                                    <TextBlock Text="Описание" FontWeight="Medium" />
-                                    <TextBlock Text="{Binding Description}" 
-                                               Margin="5 0" 
-                                               FontSize="11"
-                                               TextWrapping="Wrap" 
-                                               MaxWidth="450"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+                                <TextBlock Text="Адрес" FontWeight="Medium" />
+                                <TextBlock Text="{Binding Url}" 
+                                           Margin="5 0" 
+                                           FontSize="11"
+                                           TextWrapping="Wrap" 
+                                           MaxWidth="450"/>
+                                <TextBlock Text="Описание" FontWeight="Medium" />
+                                <TextBlock Text="{Binding Description}" 
+                                           Margin="5 0" 
+                                           FontSize="11"
+                                           TextWrapping="Wrap" 
+                                           MaxWidth="450"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
-            <Grid x:Name="GridFrame" Grid.Row="2" Visibility="Hidden" />
         </Grid>
-    </materialDesign:DialogHost>
+        <Grid x:Name="GridFrame" Grid.Row="2" Visibility="Hidden" />
+    </Grid>
+    
 </UserControl>

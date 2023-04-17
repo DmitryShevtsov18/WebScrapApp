@@ -174,6 +174,62 @@ namespace WebScrapApp.Forms
             }
         }
 
+        private void ChangeGrid(bool _openFrame = false)
+        {
+            if (_openFrame)
+            {
+                GridMain.Visibility = Visibility.Hidden;
+                GridFrame.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GridMain.Visibility = Visibility.Visible;
+                GridFrame.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void OpenFrame(ViewFrame _viewFrame)
+        {
+            GridFrame.Children.Clear();
+
+            if (_viewFrame != null)
+            {
+                GridFrame.Children.Add(_viewFrame);
+                this.ChangeGrid(true);
+            }
+        }
+
+        private void CloseFrame(object _sender, EventArgs _e)
+        {
+            ViewFrame viewFrame = _sender as ViewFrame;
+
+            this.ChangeGrid();
+
+            if (viewFrame.DialogResult)
+            {
+                SView sView = viewFrame.GetSView();
+
+                switch (viewFrame.OpenType)
+                {
+                    case SFrameOpenType.Create:
+                        this.WriteView(sView, true);
+                        break;
+                    case SFrameOpenType.Edit:
+                        this.WriteView(sView, false, true);
+                        break;
+                    case SFrameOpenType.Copy:
+                        this.WriteView(sView, true);
+                        break;
+                    default:
+                        throw new Exception("");
+                }
+
+                this.LoadListViewsOfPage();
+                this.BindListViewViews();
+                this.SelectView(sView);
+            }
+        }
+
         private void Button_Click(Object _sender, RoutedEventArgs _e)
         {
             Button button = _sender as Button;
@@ -218,38 +274,26 @@ namespace WebScrapApp.Forms
 
         private void ButtonViewCreateClick()
         {
-            View view = new View(page);
+            ViewFrame viewFrame = new ViewFrame(page);
+            viewFrame.OnClosing += CloseFrame;
 
-            if (view.ShowDialog() == true)
-            {
-                SView sView = view.GetSView();
-                this.WriteView(sView, true);
-                this.LoadListViewsOfPage();
-                this.BindListViewViews();
-                this.SelectView(sView);
-            }
+            this.OpenFrame(viewFrame);
         }
 
         private void ButtonViewEditClick()
         {
             SView sView = selectedView.Clone();
-            View view = new View(page, sView, true);
+            ViewFrame viewFrame = new ViewFrame(page, sView, true);
+            viewFrame.OnClosing += CloseFrame;
 
-            if (view.ShowDialog() == true)
-            {
-                sView = view.GetSView();
-                this.WriteView(sView, false, true);
-                this.LoadListViewsOfPage();
-                this.BindListViewViews();
-                this.SelectView(sView);
-            }
+            this.OpenFrame(viewFrame);
         }
 
         private async void ButtonViewDeleteClick()
         {
             var dialogDelete = new SDialogDelete();
             dialogDelete.Message = $"Вы действительно хотите удалить объект {selectedView.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostPageFrame");
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostWindow");
 
             if (dialogResult is bool b && b)
             {
@@ -264,16 +308,10 @@ namespace WebScrapApp.Forms
         private void ButtonViewCopyClick()
         {
             SView sView = selectedView.Clone();
-            View view = new View(page, sView);
+            ViewFrame viewFrame = new ViewFrame(page, sView);
+            viewFrame.OnClosing += CloseFrame;
 
-            if (view.ShowDialog() == true)
-            {
-                sView = view.GetSView();
-                this.WriteView(sView, true);
-                this.LoadListViewsOfPage();
-                this.BindListViewViews();
-                this.SelectView(sView);
-            }
+            this.OpenFrame(viewFrame);
         }
         
         private void ButtonOKClick()
