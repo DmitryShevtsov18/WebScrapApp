@@ -51,6 +51,32 @@ namespace WebScrapApp.Core
             }
         }
 
+        public SViewFieldCollection Fields { get; set; } = new SViewFieldCollection();
+
+        [XmlIgnore]
+        public SViewFieldCollection ViewFields
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.View))
+                {
+                    return new SViewFieldCollection();
+                }
+                else
+                {
+                    SView sView = SWorkFiles.ReadView(new SView(this.Page) { Name = this.View });
+                    if (sView is null)
+                    {
+                        return new SViewFieldCollection();
+                    }
+                    else
+                    {
+                        return sView.Fields;
+                    }
+                }
+            }
+        }
+
         public SReportTemplate() : base()
         {
             
@@ -61,6 +87,7 @@ namespace WebScrapApp.Core
             this.Project = _copyReportTemplate.Project;
             this.Page = _copyReportTemplate.Page;
             this.View = _copyReportTemplate.View;
+            this.Fields = _copyReportTemplate.Fields.Clone();
         }
 
         protected override SObject CloneObj()

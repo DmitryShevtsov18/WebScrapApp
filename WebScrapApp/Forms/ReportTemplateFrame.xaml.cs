@@ -18,14 +18,21 @@ namespace WebScrapApp.Forms
     /// <summary>
     /// Interaction logic for ReportTemplate.xaml
     /// </summary>
-    public partial class ReportTemplate : Window
+    public partial class ReportTemplateFrame : UserControl
     {
         SReportTemplate reportTemplate;
-        List<SProject> listProjects;
+        SViewFieldCollection remainFields;
 
-        public ReportTemplate()
+        public event EventHandler OnClosing;
+
+        public bool DialogResult { get; set; } = false;
+
+        public SFrameOpenType OpenType { get; set; } = SFrameOpenType.Create;
+
+        public ReportTemplateFrame()
         {
             InitializeComponent();
+
             this.Load();
         }
 
@@ -36,10 +43,45 @@ namespace WebScrapApp.Forms
 
         private void Load()
         {
-            reportTemplate = new SReportTemplate();
-            listProjects = SWorkFiles.ReadProjects();
+            this.InitReportTemplate();
+            this.BindForm();
+        }
 
-            this.BindReportTemplate();
+        private void BindForm()
+        {
+            TextBoxName.DataContext = reportTemplate;
+            ComboBoxProject.DataContext = reportTemplate;
+        }
+
+        private void InitReportTemplate()
+        {
+            reportTemplate = new SReportTemplate();
+        }
+
+        private void BindComboBoxPage()
+        {
+            ComboBoxPage.DataContext = reportTemplate;
+        }
+
+        private void BindComboBoxView()
+        {
+            ComboBoxView.DataContext = reportTemplate;
+        }
+
+        private void BindListBoxSelectedFields()
+        {
+            ListBoxSelectedFields.ItemsSource = reportTemplate.Fields.Cast<SViewField>().ToList<SViewField>();
+        }
+
+        private void BindListBoxRemainFields()
+        {
+            ListBoxRemainFields.ItemsSource = remainFields;
+        }
+
+        private void LoadListBoxFields()
+        {
+            remainFields = reportTemplate.ViewFields;
+            reportTemplate.Fields.Clear();
         }
 
         private void Button_Click(Object _sender, RoutedEventArgs _e)
@@ -48,9 +90,18 @@ namespace WebScrapApp.Forms
 
             switch (button.Name)
             {
+                case "ButtonSelectAllFields":
+                    break;
+                case "ButtonSelectField":
+                    break;
+                case "ButtonUnSelectField":
+                    break;
+                case "ButtonUnSelectAllFields":
+                    break;
                 case "ButtonOK":
                     this.ButtonOKClick();
                     break;
+                case "ButtonClose":
                 case "ButtonCancel":
                     this.ButtonCancelClick();
                     break;
@@ -59,31 +110,15 @@ namespace WebScrapApp.Forms
             }
         }
 
-        private void BindReportTemplate()
-        {
-            TextBoxName.DataContext = reportTemplate;            
-            ComboBoxProject.DataContext = reportTemplate;
-        }
-
-        private void BindComboBoxPage()
-        {            
-            ComboBoxPage.DataContext = reportTemplate;
-        }
-
-        private void BindComboBoxView()
-        {            
-            ComboBoxView.DataContext = reportTemplate;
-        }
-
         private void ButtonOKClick()
         {
             this.DialogResult = true;
-            this.Close();
+            this.OnClosing(this, EventArgs.Empty);
         }
 
         private void ButtonCancelClick()
         {
-            this.Close();
+            this.OnClosing(this, EventArgs.Empty);
         }
 
         private void ComboBoxProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -109,6 +144,9 @@ namespace WebScrapApp.Forms
             if (e.AddedItems.Count != 0)
             {
                 reportTemplate.View = ((SView)e.AddedItems[0]).Name;
+                this.LoadListBoxFields();
+                this.BindListBoxSelectedFields();
+                this.BindListBoxRemainFields();
             }
         }
     }

@@ -185,7 +185,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\ReportTemplate.xaml">
+    <Page Include="Forms\ReportTemplateFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -278,8 +278,8 @@
     <Compile Include="Forms\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ReportTemplate.xaml.cs">
-      <DependentUpon>ReportTemplate.xaml</DependentUpon>
+    <Compile Include="Forms\ReportTemplateFrame.xaml.cs">
+      <DependentUpon>ReportTemplateFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>

@@ -38,6 +38,62 @@ namespace WebScrapApp.Forms
             //this.BindListViewReports();
         }
 
+        private void ChangeGrid(bool _openFrame = false)
+        {
+            if (_openFrame)
+            {
+                GridMain.Visibility = Visibility.Hidden;
+                GridFrame.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GridMain.Visibility = Visibility.Visible;
+                GridFrame.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void OpenFrame(ReportTemplateFrame _reportTemplateFrame)
+        {
+            GridFrame.Children.Clear();
+
+            if (_reportTemplateFrame != null)
+            {
+                GridFrame.Children.Add(_reportTemplateFrame);
+                this.ChangeGrid(true);
+            }
+        }
+
+        private void CloseFrame(object _sender, EventArgs _e)
+        {
+            ReportTemplateFrame reportTemplateFrame = _sender as ReportTemplateFrame;
+
+            this.ChangeGrid();
+
+            if (reportTemplateFrame.DialogResult)
+            {
+                //SView sView = viewFrame.GetSView();
+
+                switch (reportTemplateFrame.OpenType)
+                {
+                    case SFrameOpenType.Create:
+                        //this.WriteView(sView, true);
+                        break;
+                    case SFrameOpenType.Edit:
+                        //this.WriteView(sView, false, true);
+                        break;
+                    case SFrameOpenType.Copy:
+                        //this.WriteView(sView, true);
+                        break;
+                    default:
+                        throw new Exception("");
+                }
+
+                //this.LoadListViewsOfPage();
+                //this.BindListViewViews();
+                //this.SelectView(sView);
+            }
+        }
+
         private void Button_Click(Object _sender, RoutedEventArgs _e)
         {
             Button button = _sender as Button;
@@ -105,6 +161,16 @@ namespace WebScrapApp.Forms
 
         private void ButtonReportTemplateCreateClick()
         {
+            ReportTemplateFrame reportTamplateFrame = new ReportTemplateFrame();
+            reportTamplateFrame.OnClosing += CloseFrame;
+
+            this.OpenFrame(reportTamplateFrame);
+
+            //PageFrame pageFrame = new PageFrame(selectedProject);
+            //pageFrame.OnClosing += CloseFrame;
+
+            //this.OpenFrame(pageFrame);
+
             /*ReportTemplate reportTemplate = new ReportTemplate();
             reportTemplate.ShowDialog();
             if (reportTemplate.DialogResult == true)

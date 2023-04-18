@@ -105,7 +105,7 @@ namespace WebScrapApp.Forms
 
         private void ButtonReportTemplateCreateClick()
         {
-            ReportTemplate reportTemplate = new ReportTemplate();
+            /*ReportTemplate reportTemplate = new ReportTemplate();
             reportTemplate.ShowDialog();
             if (reportTemplate.DialogResult == true)
             {
@@ -114,7 +114,7 @@ namespace WebScrapApp.Forms
                 listReportTemplates.Add(sReportTemplate);
                 this.BindListViewReportTemplates();
                 ListViewReportTemplates.SelectedItem = sReportTemplate;
-            }
+            }*/
         }
 
         private async void ButtonReportTemplateDeleteClick()

@@ -65,7 +65,7 @@ namespace WebScrapApp.Forms
 
         private void Load()
         {
-            this.initPage();
+            this.InitPage();
 
             this.BindForm();
             this.UpdateDesign();
@@ -75,7 +75,7 @@ namespace WebScrapApp.Forms
             this.SelectView();
         }
 
-        private void initPage()
+        private void InitPage()
         {
             if (page is null)
             {
