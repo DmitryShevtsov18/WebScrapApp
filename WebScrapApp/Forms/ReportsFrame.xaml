@@ -78,7 +78,10 @@
                             FontSize="12" />
                 </StackPanel>
                 <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
-                <ListView Name="ListViewReportTemplates" Grid.Row="2" FontSize="12">
+                <ListView Name="ListViewReportTemplates" 
+                          Grid.Row="2" 
+                          FontSize="12"
+                          SelectionChanged="ListViewReportTemplates_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
@@ -98,6 +101,12 @@
                                     <TextBlock Text="Объект " FontWeight="Medium" />
                                     <TextBlock Text="{Binding View}" FontSize="11" />
                                 </StackPanel>
+                                <TextBlock Text="Поля" FontWeight="Medium" />
+                                <TextBlock Text="{Binding ViewFieldsString}" 
+                                           Margin="5 0" 
+                                           FontSize="11"
+                                           TextWrapping="Wrap" 
+                                           MaxWidth="350"/>
                                 <TextBlock Text="Описание" FontWeight="Medium" />
                                 <TextBlock Text="{Binding Description}" 
                                            Margin="5 0" 
@@ -148,7 +157,10 @@
                             FontSize="12" />
                 </StackPanel>
                 <Grid Grid.Row="2" Background="#FFAEAEAE" Height="1" />
-                <ListView Name="ListViewReports" Grid.Row="3" FontSize="12">
+                <ListView Name="ListViewReports" 
+                          Grid.Row="3" 
+                          FontSize="12"
+                          SelectionChanged="ListViewReports_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">

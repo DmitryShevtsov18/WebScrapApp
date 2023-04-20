@@ -33,6 +33,8 @@ namespace WebScrapApp.Forms
         {
             InitializeComponent();
 
+            this.OpenType = SFrameOpenType.Create;
+
             this.Load();
         }
 
@@ -49,8 +51,9 @@ namespace WebScrapApp.Forms
 
         private void BindForm()
         {
+            TextBlockReportTemplateName.DataContext = reportTemplate;
             TextBoxName.DataContext = reportTemplate;
-            ComboBoxProject.DataContext = reportTemplate;
+            ComboBoxProject.DataContext = reportTemplate;            
         }
 
         private void InitReportTemplate()
@@ -60,21 +63,25 @@ namespace WebScrapApp.Forms
 
         private void BindComboBoxPage()
         {
+            ComboBoxPage.DataContext = null;
             ComboBoxPage.DataContext = reportTemplate;
         }
 
         private void BindComboBoxView()
         {
+            ComboBoxView.DataContext = null;
             ComboBoxView.DataContext = reportTemplate;
         }
 
         private void BindListBoxSelectedFields()
         {
+            ListBoxSelectedFields.ItemsSource = null;
             ListBoxSelectedFields.ItemsSource = reportTemplate.Fields.Cast<SViewField>().ToList<SViewField>();
         }
 
         private void BindListBoxRemainFields()
         {
+            ListBoxRemainFields.ItemsSource = null;
             ListBoxRemainFields.ItemsSource = remainFields;
         }
 
@@ -84,6 +91,37 @@ namespace WebScrapApp.Forms
             reportTemplate.Fields.Clear();
         }
 
+        private void SelectField(SViewField _sViewField)
+        {
+            remainFields.Remove(_sViewField);
+            reportTemplate.Fields.Add(_sViewField);
+        }
+
+        private void UnSelectField(SViewField _sViewField)
+        {
+            remainFields.Add(_sViewField);
+            reportTemplate.Fields.Remove(_sViewField);
+        }
+
+        private void BindListBoxesFields(bool _needLoad = false)
+        {
+            if (_needLoad)
+            {
+                this.LoadListBoxFields();
+            }
+
+            this.BindListBoxSelectedFields();
+            this.BindListBoxRemainFields();
+
+            if (_needLoad)
+            {
+                if (ListBoxRemainFields.HasItems)
+                {
+                    ListBoxRemainFields.SelectedIndex = 0;
+                }
+            }
+        }
+
         private void Button_Click(Object _sender, RoutedEventArgs _e)
         {
             Button button = _sender as Button;
@@ -91,12 +129,16 @@ namespace WebScrapApp.Forms
             switch (button.Name)
             {
                 case "ButtonSelectAllFields":
+                    this.ButtonSelectAllFieldClick();
                     break;
                 case "ButtonSelectField":
+                    this.ButtonSelectFieldClick();
                     break;
                 case "ButtonUnSelectField":
+                    this.ButtonUnSelectFieldClick();
                     break;
                 case "ButtonUnSelectAllFields":
+                    this.ButtonUnSelectAllFieldClick();
                     break;
                 case "ButtonOK":
                     this.ButtonOKClick();
@@ -107,6 +149,72 @@ namespace WebScrapApp.Forms
                     break;
                 default:
                     throw new Exception("");
+            }
+        }
+
+        private void ButtonSelectAllFieldClick()
+        {
+            if (ListBoxRemainFields.HasItems)
+            {
+                List<SViewField> listFields = ListBoxRemainFields.Items.Cast<SViewField>().ToList<SViewField>();
+                foreach (var sViewField in listFields)
+                {                 
+                    this.SelectField(sViewField);
+                    this.BindListBoxesFields();
+                }
+                ListBoxSelectedFields.SelectedIndex = 0;
+            }
+        }
+
+        private void ButtonSelectFieldClick()
+        {
+            if (ListBoxRemainFields.SelectedItem != null)
+            {
+                SViewField sViewField = ListBoxRemainFields.SelectedItem as SViewField;
+                int index = ListBoxRemainFields.SelectedIndex - 1;
+
+                this.SelectField(sViewField);
+                this.BindListBoxesFields();
+
+                ListBoxSelectedFields.SelectedItem = sViewField;
+                index = index >= 0 ? index : ListBoxRemainFields.HasItems ? 0 : -1;
+                if (index >= 0)
+                {
+                    ListBoxRemainFields.SelectedIndex = index;
+                }
+            }
+        }
+
+        private void ButtonUnSelectFieldClick()
+        {
+            if (ListBoxSelectedFields.SelectedItem != null)
+            {
+                SViewField sViewField = ListBoxSelectedFields.SelectedItem as SViewField;
+                int index = ListBoxSelectedFields.SelectedIndex - 1;
+
+                this.UnSelectField(sViewField);
+                this.BindListBoxesFields();
+
+                ListBoxRemainFields.SelectedItem = sViewField;
+                index = index >= 0 ? index : ListBoxSelectedFields.HasItems ? 0 : -1;
+                if (index >= 0)
+                {
+                    ListBoxSelectedFields.SelectedIndex = index;
+                }
+            }
+        }
+
+        private void ButtonUnSelectAllFieldClick()
+        {
+            if (ListBoxSelectedFields.HasItems)
+            {
+                List<SViewField> listFields = ListBoxSelectedFields.Items.Cast<SViewField>().ToList<SViewField>();
+                foreach (var sViewField in listFields)
+                {
+                    this.UnSelectField(sViewField);
+                    this.BindListBoxesFields();
+                }
+                ListBoxRemainFields.SelectedIndex = 0;
             }
         }
 
@@ -127,6 +235,8 @@ namespace WebScrapApp.Forms
             {
                 reportTemplate.Project = ((SProject)e.AddedItems[0]).Name;
                 this.BindComboBoxPage();
+                this.BindComboBoxView();
+                this.BindListBoxesFields(true);
             }
         }
 
@@ -136,6 +246,7 @@ namespace WebScrapApp.Forms
             {
                 reportTemplate.Page = ((SPage)e.AddedItems[0]).Name;
                 this.BindComboBoxView();
+                this.BindListBoxesFields(true);
             }
         }
 
@@ -144,9 +255,7 @@ namespace WebScrapApp.Forms
             if (e.AddedItems.Count != 0)
             {
                 reportTemplate.View = ((SView)e.AddedItems[0]).Name;
-                this.LoadListBoxFields();
-                this.BindListBoxSelectedFields();
-                this.BindListBoxRemainFields();
+                this.BindListBoxesFields(true);
             }
         }
     }

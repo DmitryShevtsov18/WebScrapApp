@@ -12,10 +12,10 @@ namespace WebScrapApp.Core.Form
     {
         public object Convert(object[] _values, Type _targetType, object _parameter, CultureInfo _culture)
         {
-            //string nameError = SValidationRuleViewName.GetCheckError(_values[0], _culture, new SControlCustomProperties() { Page = (string)_values[3], IsEditForm = (bool)_values[4] });            
-            //string classError = SValidationRuleViewClass.GetCheckError(_values[1], _culture);            
+            string nameError = SValidationRuleViewName.GetCheckError(_values[0], _culture, new SControlCustomProperties() { Page = (string)_values[2], IsEditForm = (bool)_values[3] });            
+            string classError = SValidationRuleViewClass.GetCheckError(_values[1], _culture);            
             bool ret = true;
-            /*
+            
             if (!string.IsNullOrWhiteSpace(nameError))
             {
                 ret = false;
@@ -24,7 +24,7 @@ namespace WebScrapApp.Core.Form
             {
                 ret = false;
             }
-            */
+            
             return ret;
         }
 

@@ -15,7 +15,8 @@ namespace WebScrapApp.Core.Form
             string nameError = SValidationRuleReportTemplateName.GetCheckError(_values[0], _culture);
             string projectError = SValidationRuleReportTemplateProject.GetCheckError(_values[1], _culture);
             string pageError = SValidationRuleReportTemplatePage.GetCheckError(_values[2], _culture);
-            string viewError = SValidationRuleReportTemplateView.GetCheckError(_values[3], _culture);            
+            string viewError = SValidationRuleReportTemplateView.GetCheckError(_values[3], _culture);
+            bool listBoxSelectedFieldsHasItems = (bool)_values[4];
             bool ret = true;
 
             if (!string.IsNullOrWhiteSpace(nameError))
@@ -31,6 +32,10 @@ namespace WebScrapApp.Core.Form
                 ret = false;
             }
             else if (!string.IsNullOrWhiteSpace(viewError))
+            {
+                ret = false;
+            }
+            else if (!listBoxSelectedFieldsHasItems)
             {
                 ret = false;
             }

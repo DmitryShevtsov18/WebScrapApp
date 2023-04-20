@@ -8,8 +8,26 @@ using System.Xml.Serialization;
 namespace WebScrapApp.Core
 {
     public class SReportTemplate : SObject
-    {        
-        public string Project { get; set; }
+    {
+        private string project;
+        public string Project 
+        {
+            get
+            {
+                return project;
+            }
+            set
+            {
+                if (project != value)
+                {
+                    page = string.Empty;
+                    view = string.Empty;
+                    this.Fields = new SViewFieldCollection();
+                }
+
+                project = value;
+            }
+        }
 
         [XmlIgnore]
         public List<SProject> Projects
@@ -20,7 +38,23 @@ namespace WebScrapApp.Core
             }
         }
 
-        public string Page { get; set; }
+        private string page;
+        public string Page 
+        {
+            get
+            {
+                return page;
+            }
+            set
+            {
+                if (page != value)
+                {
+                    view = string.Empty;
+                }
+
+                page = value;
+            }
+        }
 
         [XmlIgnore]
         public List<SPage> Pages
@@ -31,7 +65,23 @@ namespace WebScrapApp.Core
             }
         }
 
-        public string View { get; set; }
+        private string view;
+        public string View 
+        {
+            get
+            {
+                return view;
+            }
+            set
+            {
+                if (view != value)
+                {
+                    this.Fields = new SViewFieldCollection();
+                }
+
+                view = value;
+            }
+        }
 
         [XmlIgnore]
         public List<SView> Views
@@ -74,6 +124,22 @@ namespace WebScrapApp.Core
                         return sView.Fields;
                     }
                 }
+            }
+        }
+
+        [XmlIgnore]
+        public string ViewFieldsString
+        {
+            get 
+            {
+                string fields = string.Empty;
+
+                foreach (SViewField sViewField in this.Fields)
+                {
+                    fields += $"{sViewField.Name}; ";
+                }
+
+                return fields;
             }
         }
 

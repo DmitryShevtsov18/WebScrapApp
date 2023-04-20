@@ -260,6 +260,7 @@
                                 <Binding ElementName="ComboBoxProject" Path="Text" />
                                 <Binding ElementName="ComboBoxPage" Path="Text" />
                                 <Binding ElementName="ComboBoxView" Path="Text" />
+                                <Binding ElementName="ListBoxSelectedFields" Path="HasItems" />
                             </MultiBinding>
                         </Button.IsEnabled>
                     </Button>

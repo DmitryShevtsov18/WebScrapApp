@@ -21,21 +21,124 @@ namespace WebScrapApp.Forms
     /// </summary>
     public partial class ReportsFrame : UserControl
     {
-        List<SReportTemplate> listReportTemplates;
-        List<SReport> listReports;
+        private List<SReportTemplate> listReportTemplates;
+        private SReportTemplate selectedReportTemplate;
+        private int selectedReportTemplateIndex;
+        private List<SReport> listReports;
+        private List<SReport> listReportsOfReportTemplate;
+        private SReport selectedReport;
+        private int selectedReportIndex;
 
         public ReportsFrame()
         {
             InitializeComponent();
 
-            //this.Load();
+            this.Load();
         }
 
         private void Load()
         {
-            //this.LoadLists();
-            //this.BindListViewReportTemplates();
-            //this.BindListViewReports();
+            this.LoadListReportTemplates();
+            this.LoadListReports();
+            this.BindListViewReportTemplates();
+            this.SelectReportTemplate();
+        }
+
+        private void LoadListReportTemplates()
+        {
+            listReportTemplates = SWorkFiles.ReadReportTemplates();
+        }
+
+        private void LoadListReports()
+        {
+            listReports = SWorkFiles.ReadReports();
+        }
+
+        private void LoadListReportsOfReportTemplate()
+        {
+            if (listReports != null && selectedReportTemplate != null)
+            {
+                listReportsOfReportTemplate = listReports.Where<SReport>(x => x.Template == selectedReportTemplate.Name).ToList<SReport>();
+            }
+        }
+
+        private void BindListViewReportTemplates()
+        {
+            ListViewReportTemplates.ItemsSource = null;
+            if (listReportTemplates.Count > 0)
+            {
+                ListViewReportTemplates.ItemsSource = listReportTemplates;
+            }
+        }
+
+        private void BindListViewReports()
+        {
+            ListViewReports.ItemsSource = null;
+            if (listReportsOfReportTemplate.Count > 0)
+            {
+                ListViewReports.ItemsSource = listReportsOfReportTemplate;
+            }
+        }
+
+        private void BindForm()
+        {
+            TextBlockReportTemplateName.DataContext = selectedReportTemplate;
+        }
+
+        private void SelectReportTemplate(SReportTemplate _sReportTemplate)
+        {
+            if (ListViewReportTemplates.HasItems)
+            {
+                ListViewReportTemplates.SelectedItem = _sReportTemplate;
+            }
+        }
+
+        private void SelectReportTemplate(int _index = 0)
+        {
+            //if (ListViewProjects.Items.Count > 0)
+            {
+                ListViewReportTemplates.SelectedIndex = _index;
+            }
+        }
+
+        private void SelectReport(SReport _report)
+        {
+            if (ListViewReports.HasItems)
+            {
+                ListViewReports.SelectedItem = _report;
+            }
+        }
+
+        private void SelectReport(int _index = 0)
+        {
+            //if (ListViewPages.Items.Count > 0)
+            {
+                ListViewReports.SelectedIndex = _index;
+            }
+        }
+
+        private void WriteReportTemplate(SReportTemplate _sReportTemplate)
+        {
+            SWorkFiles.WriteReportTemplate(_sReportTemplate);
+            listReportTemplates.Add(_sReportTemplate);
+        }
+
+        private void RemoveReportTemplate(SReportTemplate _sReportTemplate)
+        {
+            if (_sReportTemplate != null)
+            {
+                SWorkFiles.DeleteReportTemplate(_sReportTemplate);
+                listReportTemplates.Remove(_sReportTemplate);
+            }
+        }
+
+        private void RemoveReport(SReport _report)
+        {
+            if (_report != null)
+            {
+                SWorkFiles.DeleteReport(_report);
+                listReports.Remove(_report);
+            }
         }
 
         private void ChangeGrid(bool _openFrame = false)
@@ -71,26 +174,23 @@ namespace WebScrapApp.Forms
 
             if (reportTemplateFrame.DialogResult)
             {
-                //SView sView = viewFrame.GetSView();
+                SReportTemplate sReportTemplate = reportTemplateFrame.GetReportTemplate();                
 
                 switch (reportTemplateFrame.OpenType)
                 {
                     case SFrameOpenType.Create:
-                        //this.WriteView(sView, true);
+                        this.WriteReportTemplate(sReportTemplate);
                         break;
                     case SFrameOpenType.Edit:
-                        //this.WriteView(sView, false, true);
                         break;
                     case SFrameOpenType.Copy:
-                        //this.WriteView(sView, true);
                         break;
                     default:
                         throw new Exception("");
                 }
 
-                //this.LoadListViewsOfPage();
-                //this.BindListViewViews();
-                //this.SelectView(sView);
+                this.BindListViewReportTemplates();
+                this.SelectReportTemplate(sReportTemplate);
             }
         }
 
@@ -117,6 +217,34 @@ namespace WebScrapApp.Forms
                     break;
                 default:
                     throw new Exception("");
+            }
+        }
+
+        private void ListViewReportTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count != 0)
+            {
+                selectedReportTemplate = (SReportTemplate)e.AddedItems[0];
+                if (selectedReportTemplate != null)
+                {
+                    selectedReportTemplateIndex = ListViewReportTemplates.Items.IndexOf(selectedReportTemplate);
+                }
+                this.BindForm();
+                this.LoadListReportsOfReportTemplate();
+                this.BindListViewReports();
+                this.SelectReport();                
+            }
+        }
+
+        private void ListViewReports_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count != 0)
+            {
+                selectedReport = (SReport)e.AddedItems[0];
+                if (selectedReport != null)
+                {
+                    selectedReportIndex = ListViewReports.Items.IndexOf(selectedReport);
+                }
             }
         }
 
