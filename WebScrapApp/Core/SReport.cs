@@ -40,7 +40,7 @@ namespace WebScrapApp.Core
 
         public new string GetFilename()
         {
-            return $"{this.Template}_{this.Name}_{this.CreatedDateTime}";
+            return this.Name;
         }
     }
 }

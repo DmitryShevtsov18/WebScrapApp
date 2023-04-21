@@ -169,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Forms\QueueFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\ReportsFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,27 +181,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindow_old.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Forms\Reports.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Forms\ReportTemplateFrame.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\View.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Page.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Projects.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -222,8 +206,12 @@
     <Compile Include="Core\SDialogError.cs" />
     <Compile Include="Core\SDialogNotification.cs" />
     <Compile Include="Core\SFrameOpenType.cs" />
+    <Compile Include="Core\SQueue.cs" />
+    <Compile Include="Core\SQueueStatus.cs" />
     <Compile Include="Core\SReportCreate.cs" />
+    <Compile Include="Core\SReportCreateExceptionResult.cs" />
     <Compile Include="Core\SWebParser.cs" />
+    <Compile Include="Core\SWebParserExceptionResult.cs" />
     <Compile Include="Core\SWebReader.cs" />
     <Compile Include="Core\SExceptionType.cs" />
     <Compile Include="Core\SParameterKey.cs" />
@@ -266,29 +254,17 @@
     <Compile Include="Forms\ProjectsFrame.xaml.cs">
       <DependentUpon>ProjectsFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\QueueFrame.xaml.cs">
+      <DependentUpon>QueueFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ReportsFrame.xaml.cs">
       <DependentUpon>ReportsFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\ViewFrame.xaml.cs">
       <DependentUpon>ViewFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow_old.xaml.cs">
-      <DependentUpon>MainWindow_old.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Reports.xaml.cs">
-      <DependentUpon>Reports.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ReportTemplateFrame.xaml.cs">
       <DependentUpon>ReportTemplateFrame.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Page.xaml.cs">
-      <DependentUpon>Page.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Projects.xaml.cs">
-      <DependentUpon>Projects.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -14,10 +14,6 @@ namespace WebScrapApp.Core
 
         public string Result { get; set; } = "";
 
-        public SReportLineCollection ReportLines { get; set; } = new SReportLineCollection();
-
-        public SReport Report { get; set; } = new SReport();
-
         public SExceptionResult()
         {
             

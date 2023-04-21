@@ -44,6 +44,24 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type core:SDialogNotification}">
+            <StackPanel Margin="16" DataContext="{Binding}" Width="300">
+                <TextBlock Text="{Binding Header}" FontSize="14" />
+                <TextBlock Text="{Binding Message}" FontSize="12" Margin="0,10,10,10" TextWrapping="Wrap"/>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="0,8,8,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="OK"
+                            IsDefault="True"                                
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type core:SProject}">
             <StackPanel Margin="16" DataContext="{Binding}" Width="400">
                 <TextBlock Text="Проект" FontSize="14"/>
@@ -386,6 +404,15 @@
                                                          Width="25" 
                                                          Margin="10 5"/>
                                 <TextBlock Text="Сравнение" VerticalAlignment="Center" Margin="10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="ItemQueuis" Height="50">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FileDownloadOutline" 
+                                                         Height="25" 
+                                                         Width="25" 
+                                                         Margin="10 5"/>
+                                <TextBlock Text="Выгрузки" VerticalAlignment="Center" Margin="10"/>
                             </StackPanel>
                         </ListViewItem>
                     </ListView>

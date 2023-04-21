@@ -58,12 +58,12 @@
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" MinWidth="400"/>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Grid Margin="5" MinWidth="350">
+                    <Grid Margin="5">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Наименование" Margin="5 0" />
                             <TextBox Name="TextBoxName">

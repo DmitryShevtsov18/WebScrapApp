@@ -173,11 +173,6 @@ namespace WebScrapApp.Forms
             }
         }
 
-        public void SaveDataForm()
-        {
-            this.WriteProject(selectedProject);
-        }
-
         private void ChangeGrid(bool _openFrame = false)
         {
             if (_openFrame)
@@ -279,11 +274,6 @@ namespace WebScrapApp.Forms
                 this.LoadListPagesOfProject();
                 this.BindListViewPages();
                 this.SelectPage();
-            }
-
-            if (e.RemovedItems.Count != 0)
-            {
-                this.WriteProject((SProject)e.RemovedItems[0]);
             }
         }
 

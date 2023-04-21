@@ -14,13 +14,15 @@ namespace WebScrapApp.Core
     public class SWebParser
     {
         SPage sPage;
-        SView sView;        
+        SView sView;
+        SViewFieldCollection fields;
         SReportLineCollection sReportLineCollection;
 
-        public SWebParser(SPage _sPage, SView _sView)
+        public SWebParser(SPage _sPage, SView _sView, SViewFieldCollection _fields)
         { 
             sPage = _sPage;
             sView = _sView;
+            fields = _fields;
             sReportLineCollection = new SReportLineCollection();
         }
 
@@ -55,7 +57,7 @@ namespace WebScrapApp.Core
             var context = BrowsingContext.New(Configuration.Default);
             var document = await context.OpenAsync(req => req.Content(_viewContent));
 
-            foreach (SViewField viewField in sView.Fields)
+            foreach (SViewField viewField in fields)
             {
                 var elem = document.QuerySelector(viewField.Selector);
                 var value = elem != null ? elem.TextContent : string.Empty;
@@ -70,9 +72,9 @@ namespace WebScrapApp.Core
             return sReportLineCollection;
         }
 
-        public async Task<SExceptionResult> Parse()
+        public async Task<SWebParserExceptionResult> Parse()
         {
-            SExceptionResult result = new SExceptionResult();            
+            SWebParserExceptionResult result = new SWebParserExceptionResult();            
 
             try
             {
@@ -89,7 +91,7 @@ namespace WebScrapApp.Core
                     else
                     {
                         result.Type = SExceptionType.Warning;
-                        result.Message = "No views";
+                        result.Message = "No data";
                     }
                 }
                 else

@@ -15,24 +15,24 @@ namespace WebScrapApp.Core
             sReportTemplate = _sReportTemplate;
         }
 
-        public async Task<SExceptionResult> Create()
+        public async Task<SReportCreateExceptionResult> Create()
         {
-            SExceptionResult result = new SExceptionResult();            
+            SReportCreateExceptionResult result = new SReportCreateExceptionResult();            
             SReport sReport = new SReport();
             SPage sPage = SWorkFiles.ReadPage(new SPage(sReportTemplate.Project) { Name = sReportTemplate.Page });
             SView sView = SWorkFiles.ReadView(new SView(sReportTemplate.Page) { Name = sReportTemplate.View });
 
             if (sPage != null && sView != null)
             {
-                if (sView.Fields.Count != 0)
+                if (sReportTemplate.Fields.Count > 0)
                 {
-                    SExceptionResult parsingResult = await new SWebParser(sPage, sView).Parse();
+                    SWebParserExceptionResult parsingResult = await new SWebParser(sPage, sView, sReportTemplate.Fields).Parse();
                     if (parsingResult.Type == SExceptionType.None)
                     {
                         sReport.Name = sReportTemplate.ReportName;
                         sReport.Template = sReportTemplate.Name;
                         SReportLine headers = new SReportLine();
-                        foreach (SViewField sViewField in sView.Fields)
+                        foreach (SViewField sViewField in sReportTemplate.Fields)
                         {
                             headers.Fields.Add(sViewField.Name);
                         }
@@ -50,7 +50,7 @@ namespace WebScrapApp.Core
                 else
                 {
                     result.Type = SExceptionType.Warning;
-                    result.Message = "No view fields";
+                    result.Message = "No selected fields";
                 }
             }
             else

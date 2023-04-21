@@ -83,12 +83,18 @@ namespace WebScrapApp.Core
 
         private async Task closeBrowser()
         {
-            await browser.CloseAsync();
+            if (browser != null)
+            {
+                await browser.CloseAsync();
+            }
         }
 
         private async Task closePage()
         {
-            await browser.CloseAsync();
+            if (page != null)
+            {
+                await page.CloseAsync();
+            }
         }
 
         public async Task<SExceptionResult> Read()

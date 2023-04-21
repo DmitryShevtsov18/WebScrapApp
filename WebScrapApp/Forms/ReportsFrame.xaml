@@ -40,11 +40,11 @@
         <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
         <Grid x:Name="GridMain" Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" MinWidth="400" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid MinHeight="350">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -106,13 +106,13 @@
                                            Margin="5 0" 
                                            FontSize="11"
                                            TextWrapping="Wrap" 
-                                           MaxWidth="350"/>
+                                           MaxWidth="390"/>
                                 <TextBlock Text="Описание" FontWeight="Medium" />
                                 <TextBlock Text="{Binding Description}" 
                                            Margin="5 0" 
                                            FontSize="11"
                                            TextWrapping="Wrap" 
-                                           MaxWidth="350"/>
+                                           MaxWidth="390"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

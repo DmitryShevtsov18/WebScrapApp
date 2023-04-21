@@ -56,6 +56,14 @@ namespace WebScrapApp.Core
             }
         }
 
+        public static void DeleteQueue(SQueue _queue)
+        {
+            if (SWorkFiles.ExistQueue(_queue))
+            {
+                File.Delete(SWorkFiles.FilenameXml(SParameterKey.QueueDirectory, _queue.GetFilename()));
+            }
+        }
+
         public static bool ExistPage(SPage _page)
         {
             return File.Exists(SWorkFiles.FilenameXml(SParameterKey.PageDirectory, _page.GetFilename()));
@@ -79,6 +87,11 @@ namespace WebScrapApp.Core
         public static bool ExistView(SView _view)
         {
             return File.Exists(SWorkFiles.FilenameXml(SParameterKey.ViewDirectory, _view.GetFilename()));
+        }
+
+        public static bool ExistQueue(SQueue _queue)
+        {
+            return File.Exists(SWorkFiles.FilenameXml(SParameterKey.QueueDirectory, _queue.GetFilename()));
         }
 
         public static SPage ReadPage(SPage _page)
@@ -170,6 +183,31 @@ namespace WebScrapApp.Core
             return ret;
         }
 
+        public static SQueue ReadQueue(SQueue _queue)
+        {
+            SQueue ret = null;
+
+            if (SWorkFiles.ExistQueue(_queue))
+            {
+                ret = (SQueue)new SSerialization(typeof(SQueue)).Read(SWorkFiles.FilenameXml(SParameterKey.QueueDirectory, _queue.GetFilename()));
+            }
+
+            return ret;
+        }
+
+        public static List<SQueue> ReadQueuis()
+        {
+            List<SQueue> ret = new List<SQueue>();
+            DirectoryInfo directoryInfo = new DirectoryInfo(SParameters.GetParameter(SParameterKey.QueueDirectory));
+
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+            {
+                ret.Add((SQueue)new SSerialization(typeof(SQueue)).Read(fileInfo.FullName));
+            }
+
+            return ret;
+        }
+
         public static void WritePage(SPage _page)
         {
             new SSerialization(_page).Write(SWorkFiles.FilenameXml(SParameterKey.PageDirectory, _page.GetFilename()));
@@ -193,6 +231,11 @@ namespace WebScrapApp.Core
         public static void WriteView(SView _view)
         {
             new SSerialization(_view).Write(SWorkFiles.FilenameXml(SParameterKey.ViewDirectory, _view.GetFilename()));
+        }
+
+        public static void WriteQueue(SQueue _queue)
+        {
+            new SSerialization(_queue).Write(SWorkFiles.FilenameXml(SParameterKey.QueueDirectory, _queue.GetFilename()));
         }
     }
 }

@@ -119,8 +119,20 @@ namespace WebScrapApp.Forms
 
         private void WriteReportTemplate(SReportTemplate _sReportTemplate)
         {
-            SWorkFiles.WriteReportTemplate(_sReportTemplate);
-            listReportTemplates.Add(_sReportTemplate);
+            if (_sReportTemplate != null)
+            {
+                SWorkFiles.WriteReportTemplate(_sReportTemplate);
+                listReportTemplates.Add(_sReportTemplate);
+            }
+        }
+
+        private void WriteReport(SReport _sReport)
+        {
+            if (_sReport != null)
+            {
+                SWorkFiles.WriteReport(_sReport);
+                listReports.Add(_sReport);
+            }
         }
 
         private void RemoveReportTemplate(SReportTemplate _sReportTemplate)
@@ -138,6 +150,14 @@ namespace WebScrapApp.Forms
             {
                 SWorkFiles.DeleteReport(_report);
                 listReports.Remove(_report);
+            }
+        }
+
+        private void RemoveReportsByReportTemplate()
+        {
+            foreach (var report in listReportsOfReportTemplate)
+            {
+                this.RemoveReport(report);
             }
         }
 
@@ -248,147 +268,72 @@ namespace WebScrapApp.Forms
             }
         }
 
-        private void LoadLists()
-        {
-            //listReportTemplates = SWorkFiles.ReadReportTemplates();
-            //listReports = SWorkFiles.ReadReports();
-        }
-
-        private void BindListViewReportTemplates(bool _needSelectToListView = true)
-        {
-            /*ListViewReportTemplates.ItemsSource = null;
-
-            if (listReportTemplates.Count != 0)
-            {
-                ListViewReportTemplates.ItemsSource = listReportTemplates;
-
-                if (_needSelectToListView)
-                {
-                    ListViewReportTemplates.SelectedItem = listReportTemplates[0];
-                }
-            }*/
-        }
-        
-        private void BindListViewReports(bool _needSelectToListView = true)
-        {
-            /*ListViewReports.ItemsSource = null;
-
-            if (listReports.Count != 0)
-            {
-                string reportTemplateName = ListViewReportTemplates.Items.Count > 0 ? ((SReportTemplate)ListViewReportTemplates.SelectedItem).Name : "";
-                List<SReport> listReportsByReportTemplate = listReports.Where<SReport>(x => x.Template == reportTemplateName).ToList<SReport>();
-
-                ListViewReports.ItemsSource = listReportsByReportTemplate;
-
-                if (_needSelectToListView)
-                {
-                    ListViewReports.SelectedItem = listReportsByReportTemplate[0];
-                }
-            }*/
-        }
-
         private void ButtonReportTemplateCreateClick()
         {
             ReportTemplateFrame reportTamplateFrame = new ReportTemplateFrame();
             reportTamplateFrame.OnClosing += CloseFrame;
 
             this.OpenFrame(reportTamplateFrame);
-
-            //PageFrame pageFrame = new PageFrame(selectedProject);
-            //pageFrame.OnClosing += CloseFrame;
-
-            //this.OpenFrame(pageFrame);
-
-            /*ReportTemplate reportTemplate = new ReportTemplate();
-            reportTemplate.ShowDialog();
-            if (reportTemplate.DialogResult == true)
-            {
-                SReportTemplate sReportTemplate = reportTemplate.GetReportTemplate();
-                SWorkFiles.WriteReportTemplate(sReportTemplate);
-                listReportTemplates.Add(sReportTemplate);
-                this.BindListViewReportTemplates();
-                ListViewReportTemplates.SelectedItem = sReportTemplate;
-            }*/
         }
 
         private async void ButtonReportTemplateDeleteClick()
         {
-            /*var reportTemplate = (SReportTemplate)ListViewReportTemplates.SelectedItem;
-            int index = ListViewReportTemplates.SelectedIndex - 1;
             var dialogDelete = new SDialogDelete();
-            dialogDelete.Message = $"Вы действительно хотите удалить отчет {reportTemplate.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostReports");
+            dialogDelete.Message = $"Вы действительно хотите удалить отчет {selectedReportTemplate.Name}?";
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostWindow");
 
             if (dialogResult is bool b && b)
             {
-                SWorkFiles.DeleteReportTemplate(reportTemplate);
-                listReportTemplates.Remove(reportTemplate);
-                this.BindListViewReportTemplates(false);
-
-                index = index >= 0 ? index : ListViewReportTemplates.Items.Count > 0 ? 0 : -1;
-                if (index >= 0)
-                {
-                    ListViewReportTemplates.SelectedIndex = index;                    
-                }
-
-                this.DeleteReportByReportTemplate(reportTemplate);
-                this.BindListViewReports();
-            }*/
+                this.RemoveReportsByReportTemplate();
+                this.RemoveReportTemplate(selectedReportTemplate);
+                this.BindListViewReportTemplates();
+                int index = selectedReportTemplateIndex > 0 ? selectedReportTemplateIndex - 1 : listReportTemplates.Count > 0 ? 0 : -1;
+                this.SelectReportTemplate(index);
+            }
         }
 
         private async void ButtonReportTemplateScrapClick()
-        {            
-            /*var reportTemplate = (SReportTemplate)ListViewReportTemplates.SelectedItem;
-            SExceptionResult result = await new SReportCreate(reportTemplate).Create();
+        {
+            SQueue sQueue = new SQueue(selectedReportTemplate.Name);
+            sQueue.Name = selectedReportTemplate.ReportName;
+
+            SWorkFiles.WriteQueue(sQueue);
+
+            var dialogNotification = new SDialogNotification();
+            dialogNotification.Message = $"Отчет {sQueue.Name} добавлен в очередь на выгрузку.";
+            await DialogHost.Show(dialogNotification, "DialogHostWindow");
+
+            /*SReportCreateExceptionResult result = await new SReportCreate(selectedReportTemplate).Create();
             if (result.Type == SExceptionType.None)
             {
-                SReport report = result.Report;
-                if (report != null)
+                SReport sReport = result.Report;
+                if (sReport != null)
                 {
-                    SWorkFiles.WriteReport(report);
-                    listReports.Add(report);
-                    this.BindListViewReports(false);
-                    ListViewReports.SelectedItem = report;
+                    this.WriteReport(sReport);
+                    this.LoadListReportsOfReportTemplate();
+                    this.BindListViewReports();
+                    this.SelectReport(sReport);
                 }
             }
             else
             {
-                // TODO: need dialog
                 MessageBox.Show(result.Message);
             }*/
         }
 
         private async void ButtonReportDeleteClick()
         {
-            /*var report = (SReport)ListViewReports.SelectedItem;
-            int index = ListViewReports.SelectedIndex - 1;
             var dialogDelete = new SDialogDelete();
-            dialogDelete.Message = $"Вы действительно хотите удалить отчет {report.Name}?";
-            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostReports");
+            dialogDelete.Message = $"Вы действительно хотите удалить отчет {selectedReport.Name}?";
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostWindow");
 
             if (dialogResult is bool b && b)
             {
-                SWorkFiles.DeleteReport(report);
-                listReports.Remove(report);
-                this.BindListViewReports(false);
-
-                index = index >= 0 ? index : ListViewReports.Items.Count > 0 ? 0 : -1;
-                if (index >= 0)
-                {
-                    ListViewReports.SelectedIndex = index;
-                }
-            }*/
-        }
-
-        private void DeleteReportByReportTemplate(SReportTemplate _reportTamplate)
-        {            
-            /*List <SReport> listReportsByReportTemplate = listReports.Where<SReport>(x => x.Template == _reportTamplate.Name).ToList<SReport>();
-
-            foreach (var report in listReportsByReportTemplate)
-            {
-                SWorkFiles.DeleteReport(report);
-                listReports.Remove(report);
-            }*/
+                this.RemoveReport(selectedReport);
+                this.BindListViewReports();
+                int index = selectedReportIndex > 0 ? selectedReportIndex - 1 : listReportsOfReportTemplate.Count > 0 ? 0 : -1;
+                this.SelectReport(index);
+            }
         }
     }
 }

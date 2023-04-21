@@ -18,6 +18,7 @@ namespace WebScrapApp.Core
         private const string PageDirectory = "Pages";
         private const string ViewDirectory = "Views";
         private const string ParserDirectory = "Parsers";
+        private const string QueueDirectory = "Queuis";
 
         RegistryKey currentUserKey;
         SParameterKey parameterKey;
@@ -61,6 +62,12 @@ namespace WebScrapApp.Core
                     break;
                 case SParameterKey.ViewDirectory:
                     path = SParameters.ViewDirectory;
+                    break;
+                case SParameterKey.ParserDirectory:
+                    path = SParameters.ParserDirectory;
+                    break;
+                case SParameterKey.QueueDirectory:
+                    path = SParameters.QueueDirectory;
                     break;
                 default:
                     throw new System.Exception("");

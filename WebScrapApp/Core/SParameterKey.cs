@@ -16,6 +16,7 @@ namespace WebScrapApp.Core
         ReportTemplateDirectory,
         PageDirectory,
         ViewDirectory,
-        ParserDirectory
+        ParserDirectory,
+        QueueDirectory
     }
 }

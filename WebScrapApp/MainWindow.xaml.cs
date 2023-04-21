@@ -93,27 +93,7 @@ namespace WebScrapApp
         }
 
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {            
-            if (e.RemovedItems.Count > 0)
-            {
-                switch (((ListViewItem)e.RemovedItems[0]).Name)
-                {
-                    case "ItemHome":
-                        break;
-                    case "ItemProjects":
-                        (GridMain.Children[0] as ProjectsFrame).SaveDataForm();
-                        break;
-                    case "ItemParsers":
-                        break;
-                    case "ItemReports":
-                        break;
-                    case "ItemCompare":
-                        break;
-                    default:
-                        break;
-                }
-            }
-
+        {                        
             GridMain.Children.Clear();
             currentFrame = null;
 
@@ -132,6 +112,9 @@ namespace WebScrapApp
                         currentFrame = new ReportsFrame();
                         break;
                     case "ItemCompare":
+                        break;
+                    case "ItemQueuis":
+                        currentFrame = new QueueFrame();
                         break;
                     default:
                         break;
