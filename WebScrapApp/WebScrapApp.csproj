@@ -193,6 +193,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\Form\SValueConverterQueueStatusToVisibility.cs" />
     <Compile Include="Core\SEnumBindingSourceExtension .cs" />
     <Compile Include="Core\SEnumDescriptionTypeConverter.cs" />
     <Compile Include="Core\Form\SMultiValueConverterViewFieldOKToBool.cs" />

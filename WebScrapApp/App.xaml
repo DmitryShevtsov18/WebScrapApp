@@ -45,6 +45,7 @@
             <coreForm:SValueConverterBoolInvertor x:Key="ValueConverterBoolInvertor" />
             <coreForm:SValueConverterEnumToBool x:Key="ValueConverterEnumToBool" />
             <coreForm:SValueConverterBoolInvertorToVisibility x:Key="ValueConverterBoolInvertorToVisibility" />
+            <coreForm:SValueConverterQueueStatusToVisibility x:Key="ValueConverterQueueStatusToVisibility" />
 
         </ResourceDictionary>
     </Application.Resources>

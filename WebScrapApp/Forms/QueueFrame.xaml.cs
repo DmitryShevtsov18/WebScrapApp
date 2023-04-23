@@ -24,6 +24,7 @@ namespace WebScrapApp.Forms
     public partial class QueueFrame : UserControl
     {
         private List<SQueue> listQueuis;
+        private List<SQueue> listQueuisByFilter;
         private SQueue selectedQueue;
         private int selectedQueueIndex;
 
@@ -36,10 +37,17 @@ namespace WebScrapApp.Forms
 
         private void Load()
         {
+            this.LoadForm();
+
             this.LoadListQueuis();
-            //this.LoadListPages();
+            this.LoadListQueuisByFilter();
             this.BindListViewQueuis();
             this.SelectQueue();
+        }
+
+        private void LoadForm()
+        {
+            CheckBoxAll.IsChecked = true;
         }
 
         private void LoadListQueuis()
@@ -47,12 +55,62 @@ namespace WebScrapApp.Forms
             listQueuis = SWorkFiles.ReadQueuis();
         }
 
+        private void LoadListQueuisByFilter()
+        {
+            listQueuisByFilter = new List<SQueue>();
+
+            if ((bool)CheckBoxAll.IsChecked)
+            {
+                if (listQueuis != null)
+                {
+                    listQueuisByFilter = listQueuis;
+                }
+            }
+            else
+            {
+                List<SQueue> list = new List<SQueue>();
+
+                if ((bool)CheckBoxShelve.IsChecked)
+                {
+                    list = listQueuis.Where<SQueue>(x => x.Status == SQueueStatus.Shelve).ToList<SQueue>();
+                    listQueuisByFilter.AddRange(list);
+                }
+                if ((bool)CheckBoxQueue.IsChecked)
+                {
+                    list = listQueuis.Where<SQueue>(x => x.Status == SQueueStatus.Queue).ToList<SQueue>();
+                    listQueuisByFilter.AddRange(list);
+                }
+                if ((bool)CheckBoxProcessing.IsChecked)
+                {
+                    list = listQueuis.Where<SQueue>(x => x.Status == SQueueStatus.Processing).ToList<SQueue>();
+                    listQueuisByFilter.AddRange(list);
+                }
+                if ((bool)CheckBoxCompleted.IsChecked)
+                {
+                    list = listQueuis.Where<SQueue>(x => x.Status == SQueueStatus.Completed).ToList<SQueue>();
+                    listQueuisByFilter.AddRange(list);
+                }
+                if ((bool)CheckBoxCanceled.IsChecked)
+                {
+                    list = listQueuis.Where<SQueue>(x => x.Status == SQueueStatus.Canceled).ToList<SQueue>();
+                    listQueuisByFilter.AddRange(list);
+                }
+                if ((bool)CheckBoxError.IsChecked)
+                {
+                    list = listQueuis.Where<SQueue>(x => x.Status == SQueueStatus.Error).ToList<SQueue>();
+                    listQueuisByFilter.AddRange(list);
+                }                
+            }
+
+            listQueuisByFilter = listQueuisByFilter.OrderByDescending(x => x.Name).ToList<SQueue>();
+        }
+
         private void BindListViewQueuis()
         {
             ListViewQueuis.ItemsSource = null;
-            if (listQueuis.Count > 0)
+            if (listQueuisByFilter.Count > 0)
             {
-                ListViewQueuis.ItemsSource = listQueuis;
+                ListViewQueuis.ItemsSource = listQueuisByFilter;
             }
         }
 
@@ -63,9 +121,13 @@ namespace WebScrapApp.Forms
 
         private void SelectQueue(SQueue _queue)
         {
-            if (ListViewQueuis.HasItems)
+            if (listQueuisByFilter.Contains(_queue))
             {
                 ListViewQueuis.SelectedItem = _queue;
+            }
+            else
+            {
+                this.SelectQueue();
             }
         }
 
@@ -187,6 +249,7 @@ namespace WebScrapApp.Forms
                 sQueueCopy.Status = _status;
 
                 this.WriteQueue(sQueueCopy);
+                this.LoadListQueuisByFilter();
                 this.BindListViewQueuis();
                 this.SelectQueue(sQueueCopy);
             }
@@ -255,8 +318,69 @@ namespace WebScrapApp.Forms
         {
         }
 
-        private void ButtonDeleteClick()
+        private async void ButtonDeleteClick()
         {
+            var dialogDelete = new SDialogDelete();
+            dialogDelete.Message = $"Вы действительно хотите удалить выгрузку {selectedQueue.Name}?";
+            var dialogResult = await DialogHost.Show(dialogDelete, "DialogHostWindow");
+
+            if (dialogResult is bool b && b)
+            {
+                this.RemoveQueue(selectedQueue);
+                this.LoadListQueuisByFilter();
+                this.BindListViewQueuis();
+                int index = selectedQueueIndex > 0 ? selectedQueueIndex - 1 : listQueuisByFilter.Count > 0 ? 0 : -1;
+                this.SelectQueue(index);
+            }
+        }
+
+        private void CheckBox_Checked(object _sender, RoutedEventArgs _e)
+        {
+            CheckBox checkBox = _sender as CheckBox;
+            bool isAll = false;
+
+            switch (checkBox.Name)
+            {
+                case "CheckBoxAll":
+                    isAll = true;
+                    break;
+                case "CheckBoxShelve":
+                    break;
+                case "CheckBoxQueue":
+                    break;
+                case "CheckBoxProcessing":
+                    break;
+                case "CheckBoxCompleted":
+                    break;
+                case "CheckBoxCanceled":
+                    break;
+                case "CheckBoxError":
+                    break;
+                default:
+                    throw new Exception("");
+            }
+
+            this.CheckedBoxes(isAll);
+            this.LoadListQueuisByFilter();
+            this.BindListViewQueuis();
+            this.SelectQueue(selectedQueue);
+        }
+
+        private void CheckedBoxes(bool _isAll)
+        {
+            if (_isAll)
+            {
+                CheckBoxShelve.IsChecked = false;
+                CheckBoxQueue.IsChecked = false;
+                CheckBoxProcessing.IsChecked = false;
+                CheckBoxCompleted.IsChecked = false;
+                CheckBoxCanceled.IsChecked = false;
+                CheckBoxError.IsChecked = false;
+            }
+            else
+            {
+                CheckBoxAll.IsChecked = false;
+            }
         }
     }
 }

@@ -14,6 +14,8 @@ namespace WebScrapApp.Core
 
         public List<string> Log { get; set; } = new List<string>();
 
+        public int Progress { get; set; } = 0;
+
         public SQueue() : base()
         {
 
