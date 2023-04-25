@@ -27,6 +27,7 @@ namespace WebScrapApp.Forms
         private List<SQueue> listQueuisByFilter;
         private SQueue selectedQueue;
         private int selectedQueueIndex;
+        private bool blockCheckBoxesFilterChecked;
 
         public QueueFrame()
         {
@@ -102,7 +103,7 @@ namespace WebScrapApp.Forms
                 }                
             }
 
-            listQueuisByFilter = listQueuisByFilter.OrderByDescending(x => x.Name).ToList<SQueue>();
+            listQueuisByFilter = listQueuisByFilter.OrderByDescending(x => x.CreatedDateTime).ToList<SQueue>();
         }
 
         private void BindListViewQueuis()
@@ -339,35 +340,40 @@ namespace WebScrapApp.Forms
             CheckBox checkBox = _sender as CheckBox;
             bool isAll = false;
 
-            switch (checkBox.Name)
+            if (!blockCheckBoxesFilterChecked)
             {
-                case "CheckBoxAll":
-                    isAll = true;
-                    break;
-                case "CheckBoxShelve":
-                    break;
-                case "CheckBoxQueue":
-                    break;
-                case "CheckBoxProcessing":
-                    break;
-                case "CheckBoxCompleted":
-                    break;
-                case "CheckBoxCanceled":
-                    break;
-                case "CheckBoxError":
-                    break;
-                default:
-                    throw new Exception("");
-            }
+                switch (checkBox.Name)
+                {
+                    case "CheckBoxAll":
+                        isAll = true;
+                        break;
+                    case "CheckBoxShelve":
+                        break;
+                    case "CheckBoxQueue":
+                        break;
+                    case "CheckBoxProcessing":
+                        break;
+                    case "CheckBoxCompleted":
+                        break;
+                    case "CheckBoxCanceled":
+                        break;
+                    case "CheckBoxError":
+                        break;
+                    default:
+                        throw new Exception("");
+                }
 
-            this.CheckedBoxes(isAll);
-            this.LoadListQueuisByFilter();
-            this.BindListViewQueuis();
-            this.SelectQueue(selectedQueue);
+                this.CheckedBoxes(isAll);
+                this.LoadListQueuisByFilter();
+                this.BindListViewQueuis();
+                this.SelectQueue(selectedQueue);
+            }
         }
 
         private void CheckedBoxes(bool _isAll)
         {
+            this.BlockCheckBoxesFilterChecked(true);
+
             if (_isAll)
             {
                 CheckBoxShelve.IsChecked = false;
@@ -380,6 +386,25 @@ namespace WebScrapApp.Forms
             else
             {
                 CheckBoxAll.IsChecked = false;
+            }
+
+            this.BlockCheckBoxesFilterChecked(false);
+        }
+
+        private void BlockCheckBoxesFilterChecked(bool _block)
+        {
+            blockCheckBoxesFilterChecked = _block;
+        }
+
+        private void CheckBox_Unchecked(object _sender, RoutedEventArgs _e)
+        {
+            CheckBox checkBox = _sender as CheckBox;
+
+            if (!blockCheckBoxesFilterChecked)
+            {
+                this.LoadListQueuisByFilter();
+                this.BindListViewQueuis();
+                this.SelectQueue(selectedQueue);
             }
         }
     }

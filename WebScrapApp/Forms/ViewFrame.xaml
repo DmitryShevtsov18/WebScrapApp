@@ -180,27 +180,26 @@
                     <Grid Grid.Row="3" Background="#FFAEAEAE" Height="1" />
                     <ListView Name="ListViewViewFields" 
                               Grid.Row="4"                                  
-                              FontSize="12"  
+                              FontSize="11"  
                               SelectionChanged="ListViewViewFields_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Наименование " FontWeight="Medium" />
-                                        <TextBlock Text="{Binding Name}" FontSize="11" />
+                                        <TextBlock Text="{Binding Name}" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Тег " FontWeight="Medium" />
-                                        <TextBlock Text="{Binding Tag}" FontSize="11" />
+                                        <TextBlock Text="{Binding Tag}" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Класс " FontWeight="Medium" />
-                                        <TextBlock Text="{Binding Class}" FontSize="11" />
+                                        <TextBlock Text="{Binding Class}" />
                                     </StackPanel>
                                     <TextBlock Text="Описание" FontWeight="Medium" />
                                     <TextBlock Text="{Binding Description}" 
                                                Margin="5 0" 
-                                               FontSize="11"
                                                TextWrapping="Wrap" 
                                                MaxWidth="450"/>
                                 </StackPanel>

@@ -32,7 +32,7 @@
         <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
         <Grid x:Name="GridMain" Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" MinWidth="400"/>
+                <ColumnDefinition Width="auto" MinWidth="410"/>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -52,19 +52,23 @@
                     </Grid.ColumnDefinitions>
                     <CheckBox Name="CheckBoxAll" 
                               Content="Все" 
-                              Checked="CheckBox_Checked" />
+                              Checked="CheckBox_Checked"
+                              Unchecked="CheckBox_Unchecked"/>
                     <CheckBox Name="CheckBoxShelve" 
                               Grid.Column="1" 
                               Content="Отложено" 
-                              Checked="CheckBox_Checked" />
+                              Checked="CheckBox_Checked"
+                              Unchecked="CheckBox_Unchecked" />
                     <CheckBox Name="CheckBoxQueue" 
                               Grid.Column="2" 
                               Content="В очереди" 
-                              Checked="CheckBox_Checked" />
+                              Checked="CheckBox_Checked"
+                              Unchecked="CheckBox_Unchecked" />
                     <CheckBox Name="CheckBoxProcessing" 
                               Grid.Column="3" 
                               Content="В процессе" 
-                              Checked="CheckBox_Checked" />
+                              Checked="CheckBox_Checked"
+                              Unchecked="CheckBox_Unchecked" />
                 </Grid>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
@@ -76,15 +80,18 @@
                     <CheckBox Name="CheckBoxCompleted" 
                               Grid.Column="1" 
                               Content="Завершено" 
-                              Checked="CheckBox_Checked" />
+                              Checked="CheckBox_Checked"
+                              Unchecked="CheckBox_Unchecked" />
                     <CheckBox Name="CheckBoxCanceled" 
                               Grid.Column="2" 
                               Content="Отменено" 
-                              Checked="CheckBox_Checked" />
+                              Checked="CheckBox_Checked"
+                              Unchecked="CheckBox_Unchecked" />
                     <CheckBox Name="CheckBoxError" 
                               Grid.Column="3" 
                               Content="Ошибка" 
-                              Checked="CheckBox_Checked" />
+                              Checked="CheckBox_Checked"
+                              Unchecked="CheckBox_Unchecked" />
                 </Grid>
                 <Grid Grid.Row="2" Background="#FFAEAEAE" Height="1" />
                 <ListView Name="ListViewQueuis" 
@@ -93,8 +100,9 @@
                           FontSize="12">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="380">
+                            <Grid Width="375">
                                 <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding CreatedDateTime}" FontSize="11" />
                                     <TextBlock Text="Наименование" FontSize="11" FontWeight="Medium" />
                                     <TextBlock Text="{Binding Name}" 
                                                Margin="5 0" 
@@ -193,6 +201,19 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <Grid Height="40" 
+                      VerticalAlignment="Top" 
+                      Background="{DynamicResource PrimaryHueLightBrush}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   Margin="10"
+                                   Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                   FontSize="14"
+                                   Text="История" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" Background="#FFAEAEAE" Height="1" />
                 
             </Grid>
         </Grid>

@@ -24,7 +24,6 @@ namespace WebScrapApp.Core
         protected SReport(SReport _copyReport) : base(_copyReport) 
         {
             this.Template = _copyReport.Template;
-            this.CreatedDateTime = DateTime.Now;
             this.Headers = _copyReport.Headers.Clone();
         }
 

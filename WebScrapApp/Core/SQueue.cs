@@ -10,6 +10,8 @@ namespace WebScrapApp.Core
     {
         public string Template { get; set; }
 
+        public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+
         public SQueueStatus Status { get; set; } = SQueueStatus.Queue;
 
         public List<string> Log { get; set; } = new List<string>();
@@ -29,6 +31,10 @@ namespace WebScrapApp.Core
         protected SQueue(SQueue _copyQueue) : base(_copyQueue)
         {
             this.Template = _copyQueue.Template;
+            this.CreatedDateTime = _copyQueue.CreatedDateTime;
+            this.Status = _copyQueue.Status;
+            this.Log = _copyQueue.Log;
+            this.Progress = _copyQueue.Progress;
         }
 
         protected override SObject CloneObj()
@@ -39,11 +45,6 @@ namespace WebScrapApp.Core
         public SQueue Clone()
         {
             return (SQueue)this.CloneObj();
-        }
-
-        public new string GetFilename()
-        {
-            return this.Name;
         }
     }
 }

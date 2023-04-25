@@ -86,10 +86,10 @@
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Наименование " FontWeight="Medium" />
+                                    <TextBlock Text="Наименование " FontSize="11" FontWeight="Medium" />
                                     <TextBlock Text="{Binding Name}" FontSize="11" />
                                 </StackPanel>
-                                <TextBlock Text="Описание" FontWeight="Medium" />
+                                <TextBlock Text="Описание" FontSize="11" FontWeight="Medium" />
                                 <TextBlock Text="{Binding Description}" 
                                            Margin="5 0" 
                                            FontSize="11"
@@ -165,16 +165,16 @@
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Наименование " FontWeight="Medium" />
+                                    <TextBlock Text="Наименование " FontSize="11" FontWeight="Medium" />
                                     <TextBlock Text="{Binding Name}" FontSize="11" />
                                 </StackPanel>
-                                <TextBlock Text="Адрес" FontWeight="Medium" />
+                                <TextBlock Text="Адрес" FontSize="11" FontWeight="Medium" />
                                 <TextBlock Text="{Binding Url}" 
                                            Margin="5 0" 
                                            FontSize="11"
                                            TextWrapping="Wrap" 
                                            MaxWidth="450"/>
-                                <TextBlock Text="Описание" FontWeight="Medium" />
+                                <TextBlock Text="Описание" FontSize="11" FontWeight="Medium" />
                                 <TextBlock Text="{Binding Description}" 
                                            Margin="5 0" 
                                            FontSize="11"

@@ -96,7 +96,7 @@
                                      FontSize="11"
                                      TextWrapping="Wrap"
                                      VerticalScrollBarVisibility="Auto" 
-                                     Height="35">
+                                     Height="40">
                                 <TextBox.Text>
                                     <Binding Path="Url" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -215,18 +215,18 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Наименование " FontWeight="Medium" />
+                                        <TextBlock Text="Наименование " FontSize="11" FontWeight="Medium" />
                                         <TextBlock Text="{Binding Name}" FontSize="11" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Тег " FontWeight="Medium" />
+                                        <TextBlock Text="Тег " FontSize="11" FontWeight="Medium" />
                                         <TextBlock Text="{Binding Tag}" FontSize="11" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Класс " FontWeight="Medium" />
+                                        <TextBlock Text="Класс " FontSize="11" FontWeight="Medium" />
                                         <TextBlock Text="{Binding Class}" FontSize="11" />
                                     </StackPanel>
-                                    <TextBlock Text="Описание" FontWeight="Medium" />
+                                    <TextBlock Text="Описание" FontSize="11" FontWeight="Medium" />
                                     <TextBlock Text="{Binding Description}" 
                                                Margin="5 0" 
                                                FontSize="11"

@@ -97,7 +97,7 @@ namespace WebScrapApp.Core
         {
             get
             {
-                return $"{this.Name}_{this.Project}_{this.Page}_{this.View}_{DateTime.Now.ToString("dd_MM_yyyy_HHmmss")}";
+                return $"{this.Name}_{this.Project}_{this.Page}_{this.View}_{DateTime.Now.ToString("ddMMyy_HHmmss")}";
             }
         }
 
