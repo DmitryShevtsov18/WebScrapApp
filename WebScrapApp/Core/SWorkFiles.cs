@@ -145,6 +145,18 @@ namespace WebScrapApp.Core
             return ret;
         }
 
+        public static SReportTemplate ReadReportTemplate(SReportTemplate _sReportTemplate)
+        {
+            SReportTemplate ret = null;
+
+            if (SWorkFiles.ExistReportTemplate(_sReportTemplate))
+            {
+                ret = (SReportTemplate)new SSerialization(typeof(SReportTemplate)).Read(SWorkFiles.FilenameXml(SParameterKey.ReportTemplateDirectory, _sReportTemplate.GetFilename()));
+            }
+
+            return ret;
+        }
+
         public static List<SReportTemplate> ReadReportTemplates()
         {
             List<SReportTemplate> ret = new List<SReportTemplate>();

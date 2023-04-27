@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WebScrapApp.Core;
 using WebScrapApp.Forms;
 
 namespace WebScrapApp
@@ -21,10 +23,36 @@ namespace WebScrapApp
     public partial class MainWindow : Window
     {
         UserControl currentFrame;
+        Thread queueServiceThread;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Load();
+        }
+
+        private void Load()
+        {
+            this.InitThreads();
+        }
+
+        private void InitThreads()
+        {
+            queueServiceThread = new Thread(QueueServiceThreadMethod);
+            queueServiceThread.Start();
+        }
+
+        private void QueueServiceThreadMethod()
+        {
+            SQueueService service = new SQueueService();
+            service.OnExecutedQueue += QueueServiceThread_OnExecutedQueue;
+            service.Start();
+        }
+
+        private void QueueServiceThread_OnExecutedQueue(object sender, EventArgs e)
+        {
+            
         }
 
         private void Button_Click(object _sender, RoutedEventArgs _e)

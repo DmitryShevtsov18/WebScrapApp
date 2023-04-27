@@ -208,6 +208,7 @@
     <Compile Include="Core\SDialogNotification.cs" />
     <Compile Include="Core\SFrameOpenType.cs" />
     <Compile Include="Core\SQueue.cs" />
+    <Compile Include="Core\SQueueService.cs" />
     <Compile Include="Core\SQueueStatus.cs" />
     <Compile Include="Core\SReportCreate.cs" />
     <Compile Include="Core\SReportCreateExceptionResult.cs" />
