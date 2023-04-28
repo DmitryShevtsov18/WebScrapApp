@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using WebScrapApp.Core;
 using WebScrapApp.Forms;
 
@@ -24,6 +25,7 @@ namespace WebScrapApp
     {
         UserControl currentFrame;
         Thread queueServiceThread;
+        delegate void ExecutedQueueDelegate(SQueue _sQueue);
 
         public MainWindow()
         {
@@ -50,9 +52,25 @@ namespace WebScrapApp
             service.Start();
         }
 
-        private void QueueServiceThread_OnExecutedQueue(object sender, EventArgs e)
+        private void QueueServiceThread_OnExecutedQueue(object _sender, EventArgs _e)
         {
-            
+            SQueueService sQueueService = (SQueueService)_sender;
+            if (sQueueService != null)
+            {
+                ExecutedQueueDelegate executedQueueDelegate = new ExecutedQueueDelegate(ExecuteQueueMethod);
+                this.Dispatcher.BeginInvoke(executedQueueDelegate, new object[1] { sQueueService.Queue });
+            }
+        }
+
+        private void ExecuteQueueMethod(SQueue _sQueue)
+        {
+            if (_sQueue != null)
+            {
+                if (currentFrame != null && currentFrame.GetType() == typeof(QueueFrame))
+                {
+                    ((QueueFrame)currentFrame).RefreshQueue(_sQueue);
+                }
+            }
         }
 
         private void Button_Click(object _sender, RoutedEventArgs _e)
@@ -152,6 +170,14 @@ namespace WebScrapApp
                 {
                     GridMain.Children.Add(currentFrame);
                 }
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (queueServiceThread != null)
+            {
+                queueServiceThread.Abort();
             }
         }
     }

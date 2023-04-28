@@ -407,5 +407,30 @@ namespace WebScrapApp.Forms
                 this.SelectQueue(selectedQueue);
             }
         }
+
+        public void RefreshQueue(SQueue _sQueue)
+        {
+            if (_sQueue != null && listQueuis.Count > 0)
+            {
+                lock (this)
+                {
+                    int index = listQueuis.FindIndex(x => x.Name == _sQueue.Name);
+                    if (index >= 0)
+                    {
+                        listQueuis.RemoveAt(index);
+                        listQueuis.Insert(index, _sQueue);
+
+                        if (selectedQueue.Name == _sQueue.Name)
+                        {
+                            selectedQueue = _sQueue;
+                        }
+
+                        this.LoadListQueuisByFilter();
+                        this.BindListViewQueuis();
+                        this.SelectQueue(selectedQueue);
+                    }
+                }
+            }
+        }
     }
 }

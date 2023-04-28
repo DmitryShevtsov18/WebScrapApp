@@ -11,6 +11,7 @@
         x:Class="WebScrapApp.MainWindow"            
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
+        Closed="Window_Closed"
         Title="MainWindow"         
         MinHeight="700"
         MinWidth="1200">

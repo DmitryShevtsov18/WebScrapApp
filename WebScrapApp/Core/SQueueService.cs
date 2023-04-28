@@ -70,6 +70,7 @@ namespace WebScrapApp.Core
             if (executingQueue != null)
             {
                 //for test
+                Thread.Sleep(10000);
                 this.AddLog("OK");
                 this.FinishQueue();
                 /*SReportTemplate sReportTemplate = SWorkFiles.ReadReportTemplate(new SReportTemplate() { Name = executingQueue.Template });
